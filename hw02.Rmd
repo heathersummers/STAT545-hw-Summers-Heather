@@ -1,0 +1,42 @@
+---
+title: "hw02_HeatherSummers"
+output: github_document
+---
+```{r}
+library(tidyverse)
+library(gapminder)
+```
+
+### Smell test the data
+
+Gapminder is a data.frame since it is able to hold different types of variables including character data (i.e. country, continent, etc.) and numeric data (i.e. lifeExp, pop, etc.) while matrices can only use one type of variable (i.e. vectors are of the same mode). In addition gapminder is not a list or vector since it does collect scalars of the same mode and vectors of the same length (i.e. the list of varaibles must have the same number of rows) but do not necessarily have to be the same mode. 
+```{r}
+str(gapminder) #Provides a way to display the structure of the gapminder object. 
+```
+
+As shown in 'str(gapminder)', the classes are 'tbl_df', 'tbl', and 'data.frame'.
+
+There are six variables/columns including country, continent, year, life expectantcy, population, and gdp per capita.
+```{r}
+ncol(gapminder)
+```
+
+There are 1704 rows in the gapminder data.
+```{r}
+nrow(gapminder)
+```
+
+There are several different ways that you can get information regarding the extent or size of the gapminder object. See below for some examples:
+```{r}
+summary(gapminder)
+dim(gapminder) #Provides the dimension of the data.frame (i.e. number of rows and columns).
+length(gapminder) #Provides the number of columns.
+names(gapminder) #Provides the names for each of the variables (columns).
+```
+'summary' would be a good way to get a statistical overview of the data (i.e. min, max, median, mean, etc.) while 'names' would provide the variables which could be more useful than just the number of columns which is provided by 'length' and 'dim'. 'dim' provides a quick way of getting basic information on the size of the data since it provides the number of rows and columns.
+
+The country and continent variables are factors, year and population are integers, and life expectancy and gdp per capita are numeric. 
+```{r}
+lapply(gapminder, class) #In order to get the classes of each of the columns in the data.frame.
+str(gapminder) #Also provides a way to get the data type for each variable.
+```
