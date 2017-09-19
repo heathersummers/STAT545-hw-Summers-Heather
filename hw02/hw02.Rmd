@@ -16,7 +16,7 @@ str(gapminder) #Provides a way to display the structure of the gapminder object.
 
 As shown in 'str(gapminder)', the classes are 'tbl_df', 'tbl', and 'data.frame'.
 
-There are six variables/columns including country, continent, year, life expectantcy, population, and gdp per capita.
+There are six variables/columns including country, continent, year, life expectancy, population, and GDP per capita.
 ```{r}
 ncol(gapminder)
 ```
@@ -35,8 +35,23 @@ names(gapminder) #Provides the names for each of the variables (columns).
 ```
 'summary' would be a good way to get a statistical overview of the data (i.e. min, max, median, mean, etc.) while 'names' would provide the variables which could be more useful than just the number of columns which is provided by 'length' and 'dim'. 'dim' provides a quick way of getting basic information on the size of the data since it provides the number of rows and columns.
 
-The country and continent variables are factors, year and population are integers, and life expectancy and gdp per capita are numeric. 
+The country and continent variables are factors, year and population are integers, and life expectancy and GDP per capita are numeric. 
 ```{r}
 lapply(gapminder, class) #In order to get the classes of each of the columns in the data.frame.
 str(gapminder) #Also provides a way to get the data type for each variable.
 ```
+
+### Explore individual variables
+
+The categorical variables I have chosen to explore are continents and countries and the quantitative variables I have chosen to explore are life expectancy and GDP per capita.
+```{r}
+summary(gapminder$continent)
+table(gapminder$continent)
+barplot(table(gapminder$continent))
+summary(gapminder$country)
+summary(gapminder$lifeExp)
+hist(gapminder$lifeExp)
+summary(gapminder$gdpPercap)
+hist(gapminder$gdpPercap)
+```
+
