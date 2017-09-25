@@ -11,7 +11,7 @@ I recently graduated with an Honours Bachelor of Science from the Integrated Sci
 
 ### Homework Assignments
 | Homework | Due Date | Completed |  Peer Review Due Date |
-| :----: | :----: | :----: | :----: | :----:|
+| :---: | :---: | :---: | :---: | :---:|
 | 1 | September 19, 2017 | Yes | September 25, 2017 |
 | 2 | September 26, 2017 | No | October 2, 2017 |
 | 3 | October 3, 2017 | No | October 9, 2017 |
