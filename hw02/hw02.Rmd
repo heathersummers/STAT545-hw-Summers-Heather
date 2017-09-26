@@ -147,7 +147,95 @@ Life expectantcy displays a skewed left distribution while GDP per capita displa
 
 ## Explore various plot types
 
+The GDP per capita per year for each continent.
+```{r}
+gapminder %>%
+  group_by(continent,year) %>%
+  ggplot(aes(x = year, y = gdpPercap)) +
+  geom_point(aes(colour = continent)) +
+  labs(title = "GDP Per Capita vs Year", x = "Year", y = "GDP per capita")
+```
 
+
+Now to focus on the GDP per capita of five countries.
+```{r}
+gapminder %>%
+    filter(country %in% c("Canada", "New Zealand","France", "Belgium", "Denmark")) %>% 
+             ggplot(aes(x = year, y = gdpPercap, colour = country)) + 
+                   geom_line() + geom_point() +
+  labs(title = "GDP Per Capita vs Year", x = "Year", y = "GDP per capita")
+```
+The same graph can also be created the following way.
+```{r}
+fiveCountries <- c("Canada", "New Zealand","France", "Belgium", "Denmark")
+x<-droplevels(subset(gapminder, country %in% fiveCountries))
+ggplot(x, aes(x = year, y = gdpPercap, colour = country)) + geom_line() + geom_point() + labs(title = "GDP Per Capita vs Year", x = "Year", y = "GDP per capita")
+```
+
+A boxplot of the GDP per capita of five countries.
+```{r}
+gapminder %>%
+    filter(country %in% c("Canada", "New Zealand","France", "Belgium", "Denmark")) %>% 
+             ggplot(aes(x = country, y = gdpPercap)) + geom_boxplot() + labs(title = "GDP Per Capita vs Country", x = "Country", y = "GDP per capita" )
+```
+
+You can also add the raw data points (seen in blue) onto the boxplot.
+```{r}
+gapminder %>%
+    filter(country %in% c("Canada", "New Zealand","France", "Belgium", "Denmark")) %>% 
+             ggplot(aes(x = country, y = gdpPercap)) + geom_boxplot() + 
+  geom_jitter(position = position_jitter(width = 0.1, height = 0), alpha = 0.3, size = 2.5, colour = "blue") +
+  labs(title = "GDP Per Capita vs Country", x = "Country", y = "GDP per capita" )
+```
+
+You can also just have a stripplot (univariate scatterplot) in which only the raw data points are plotted.
+```{r}
+gapminder %>%
+    filter(country %in% c("Canada", "New Zealand","France", "Belgium", "Denmark")) %>% 
+             ggplot(aes(x = country, y = gdpPercap)) + 
+  geom_jitter(position = position_jitter(width = 0.1, height = 0), alpha = 0.3, size = 3.5, colour = "grey10") + 
+  stat_summary(fun.y = mean, colour = "deeppink", geom = "point", size = 5) + 
+  labs(title = "GDP Per Capita vs Country", x = "Country", y = "GDP per capita" )
+```
+The mean GDP per capita for each country is shown by the pink point on the plot.
+
+Now to create a density plot of the life expectantcies of the five countries. 
+```{r}
+gapminder %>%
+    filter(country %in% c("Canada", "New Zealand","France", "Belgium", "Denmark")) %>% 
+  ggplot(aes(x = lifeExp, fill = country)) +
+  geom_density (alpha = 0.25) +
+  labs (title = "Life Expectantcy Distribution", x = "Life Expectantcy", y = "Density")
+```
+
+To plot GDP per capita and life expectantcy for each continent in the year 1997 I used the function 'facet_wrap()'. 
+```{r}
+jPch <- 21
+jDarkGray <- 'grey15'
+jXlim <- c(150, 114500)
+jYlim <- c(25, 100)
+
+ggplot(subset(gapminder, year == 1997),
+       aes(x = gdpPercap, y = lifeExp)) +
+  scale_x_log10(limits = jXlim) + ylim(jYlim) +
+  geom_point(aes(size = sqrt(pop)), pch = jPch, colour = jDarkGray, show.legend = FALSE, alpha = 0.5) +
+  scale_size_continuous(range=c(1,40)) + facet_wrap(~ continent) + coord_fixed(ratio = 1/43) + aes(fill = country) + scale_fill_manual(values = country_colors) + theme_bw() + theme(strip.text = element_text(size = rel(1.1))) + labs(title = "Life Expectancy vs GDP per capita in 1997", 
+      x = "GDP per capita", y = "Life Expectancy")
+#The gapminder package comes with colour schemes for countries and continents, use the function 'country_colours'.
+```
+
+## But I want to do more!
+```{r}
+filter(gapminder, country == c("Rwanda", "Afghanistan"))
+```
+
+Below is the correct way to get the data for Rwanda and Afghanistan.
+```{r}
+library(knitr)
+gapminder %>%
+    filter(country %in% c("Rwanda", "Afghanistan")) %>% 
+  kable(digits = 1, align = 'c')
+```
 
 
 
