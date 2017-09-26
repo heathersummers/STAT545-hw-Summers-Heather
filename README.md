@@ -19,6 +19,6 @@ I recently graduated with an Honours Bachelor of Science from the Integrated Sci
 | :---: | :---: | :---: | :---: |
 | [01](http://stat545.com/hw01_edit-README.html) | September 19, 2017 | [Yes](https://github.com/heathersummers/STAT545-homework01-Summers-Heather) | September 25, 2017 |
 | [02](http://stat545.com/hw02_explore-gapminder-dplyr.html) | September 26, 2017 | [Yes](https://github.com/heathersummers/STAT545-hw-Summers-Heather/blob/master/hw02/hw02.md) | October 2, 2017 |
-| 03 | October 3, 2017 | No | October 9, 2017 |
+| [03](http://stat545.com/hw03_dplyr-and-more-ggplot2.html) | October 3, 2017 | No | October 9, 2017 |
 | 04 | October 10, 2017 | No | October 16, 2017 |
 | 05 | October 20, 2017 | No | October 23, 2017 |
