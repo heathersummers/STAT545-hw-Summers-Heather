@@ -244,7 +244,12 @@ ggplot(subset(gapminder, year == 1997),
 filter(gapminder, country == c("Rwanda", "Afghanistan"))
 ```
 
-The output above is missing some of the data for both countries since the function is assuming that both countries are one and thus alternates years and only includes 12 observations instead of 24. Below is the correct way to get the data for Rwanda and Afghanistan.
+The output above is missing some of the data for both countries since the function is combining the countries so that each country is alternating years (i.e. data for the year 1952 is supplied by Rwanda while the year 1957 is supplied by Afghanistan) and thus only includes 12 observations/rows instead of 24. Below is the correct way to get the data for Rwanda and Afghanistan. 
+```{r}
+filter(gapminder, country == "Rwanda" | country == "Afghanistan")
+```
+
+In addition, I have included another output which can also generate the correct output but which uses a pipe operator (%>%) making it easier to include multiple countries.
 ```{r}
 library(knitr)
 gapminder %>%
