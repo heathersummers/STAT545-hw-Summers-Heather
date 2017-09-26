@@ -229,7 +229,7 @@ ggplot(subset(gapminder, year == 1997),
 filter(gapminder, country == c("Rwanda", "Afghanistan"))
 ```
 
-Below is the correct way to get the data for Rwanda and Afghanistan.
+The output above is missing some of the data for both countries. Below is the correct way to get the data for Rwanda and Afghanistan.
 ```{r}
 library(knitr)
 gapminder %>%
