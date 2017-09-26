@@ -7,48 +7,95 @@ library(tidyverse)
 library(gapminder)
 ```
 
-### Smell test the data
+## Smell test the data
 
-Gapminder is a data.frame since it is able to hold different types of variables including character data (i.e. country, continent, etc.) and numeric data (i.e. lifeExp, pop, etc.) while matrices can only use one type of variable (i.e. vectors are of the same mode). In addition gapminder is not a list or vector since it does collect scalars of the same mode and vectors of the same length (i.e. the list of varaibles must have the same number of rows) but do not necessarily have to be the same mode. 
+#### Is it a data.frame, a matrix, a vector, a list?
 ```{r}
 str(gapminder) #Provides a way to display the structure of the gapminder object. 
 ```
+Gapminder is a data.frame or tibble since it is able to hold different types of variables including character data (i.e. country, continent, etc.) and numeric data (i.e. lifeExp, pop, etc.) while matrices can only use one type of variable (i.e. vectors are of the same mode). 
 
-As shown in 'str(gapminder)', the classes are 'tbl_df', 'tbl', and 'data.frame'.
+```{r}
+typeof(gapminder)
+```
+In addition, gapminder is a type of list. 
 
-There are six variables/columns including country, continent, year, life expectancy, population, and GDP per capita.
+#### What's its class?
+```{r}
+class(gapminder)
+```
+As shown above as well as in 'str(gapminder)', the classes are tibble, table, and data frame.
+
+#### How many variables/columns?
 ```{r}
 ncol(gapminder)
+names(gapminder) #Provides the names for each of the variables (columns).
 ```
+There are six variables/columns including country, continent, year, life expectancy, population, and GDP per capita.
 
-There are 1704 rows in the gapminder data.
+#### How many rows/observations?
 ```{r}
 nrow(gapminder)
 ```
+There are 1704 rows in the gapminder data.
 
+#### Can you get these facts about "extent" or "size" in more than one way? Can you imagine different functions being useful in different contexts?
 There are several different ways that you can get information regarding the extent or size of the gapminder object. See below for some examples:
 ```{r}
 summary(gapminder)
-dim(gapminder) #Provides the dimension of the data.frame (i.e. number of rows and columns).
-length(gapminder) #Provides the number of columns.
-names(gapminder) #Provides the names for each of the variables (columns).
 ```
-'summary' would be a good way to get a statistical overview of the data (i.e. min, max, median, mean, etc.) while 'names' would provide the variables which could be more useful than just the number of columns which is provided by 'length' and 'dim'. 'dim' provides a quick way of getting basic information on the size of the data since it provides the number of rows and columns.
+The function 'summary()' is a good way to get a statistical overview of the data (i.e. min, max, median, mean, etc.).
 
-The country and continent variables are factors, year and population are integers, and life expectancy and GDP per capita are numeric. 
 ```{r}
-lapply(gapminder, class) #In order to get the classes of each of the columns in the data.frame.
+dim(gapminder)
+```
+The function 'dim(gapminder)' provides the dimensions of the data frame, thus the number of rows and columns.
+
+```{r}
+length(gapminder)
+```
+The function 'length(gapminder)' provides the number of elements in a list and with the gapminder data frame each column is a list so therefore the output provides the number of columns.
+
+The functions 'dim()' and 'length()' provide a quick way of getting basic information on the size and extent of the data. 
+
+#### What data type is each variable?
+```{r}
+lapply(gapminder, class) #In order to get the classes of each of the columns in the data frame.
+
 str(gapminder) #Also provides a way to get the data type for each variable.
 ```
+The country and continent variables are factors, year and population are integers, and life expectancy and GDP per capita are numeric. 
 
-### Explore individual variables
+## Explore individual variables
 
 The categorical variables I have chosen to explore are continents and countries and the quantitative variables I have chosen to explore are life expectancy and GDP per capita.
+
+#### What are possible values (or range, whichever is appropriate) of each variable?
 ```{r}
+summary(gapminder$continent) %>%
+  length()
 summary(gapminder$continent)
 table(gapminder$continent)
+```
+These two functions let us know that there are five continents listed in the gapminder data frame and provides the number of elements for each of the continents. The function 'table(gapminder$continent)' provides the same information.
+
+```{r}
+unique(gapminder$country) %>%
+  length()
+```
+
+There are 142 countries in the gapminder dataset. Below are the first five countries listed in al
+
+```{r}
+unique(select(gapminder, country)) %>%
+  head()
+```
+
+
+```{r}
 barplot(table(gapminder$continent))
-summary(gapminder$country)
+summary(gapminder$country) %>%
+  length()
 summary(gapminder$lifeExp)
 hist(gapminder$lifeExp)
 summary(gapminder$gdpPercap)
