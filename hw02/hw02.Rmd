@@ -7,6 +7,7 @@ library(tidyverse)
 library(gapminder)
 ```
 
+
 ## Smell test the data
 
 #### Is it a data.frame, a matrix, a vector, a list?
@@ -81,6 +82,7 @@ str(gapminder) #Also provides a way to get the data type for each variable.
 ```
 The country and continent variables are factors, year and population are integers, and life expectancy and GDP per capita are numeric. 
 
+
 ## Explore individual variables
 
 The categorical variables I have chosen to explore are continents and countries and the quantitative variables I have chosen to explore are life expectancy and GDP per capita.
@@ -145,6 +147,7 @@ hist(gapminder$gdpPercap)
 
 Life expectantcy displays a skewed left distribution while GDP per capita displays a skewed right distribution.
 
+
 ## Explore various plot types
 
 The GDP per capita per year for each continent.
@@ -161,16 +164,26 @@ Now to focus on the GDP per capita of five countries.
 ```{r}
 gapminder %>%
     filter(country %in% c("Canada", "New Zealand","France", "Belgium", "Denmark")) %>% 
-             ggplot(aes(x = year, y = gdpPercap, colour = country)) + 
-                   geom_line() + geom_point() +
+             ggplot(aes(x = year, y = gdpPercap, shape = country)) + 
+                   geom_line() + geom_point(size=2) +
   labs(title = "GDP Per Capita vs Year", x = "Year", y = "GDP per capita")
 ```
 The same graph can also be created the following way.
 ```{r}
 fiveCountries <- c("Canada", "New Zealand","France", "Belgium", "Denmark")
 x<-droplevels(subset(gapminder, country %in% fiveCountries))
-ggplot(x, aes(x = year, y = gdpPercap, colour = country)) + geom_line() + geom_point() + labs(title = "GDP Per Capita vs Year", x = "Year", y = "GDP per capita")
+ggplot(x, aes(x = year, y = gdpPercap, shape = country)) + geom_line() + geom_point(size=2) + labs(title = "GDP Per Capita vs Year", x = "Year", y = "GDP per capita")
 ```
+
+In addition, the graph can be generated using colours to represent different countries instead of shape.
+```{r}
+gapminder %>%
+    filter(country %in% c("Canada", "New Zealand","France", "Belgium", "Denmark")) %>% 
+    ggplot(aes(x = year, y = gdpPercap, colour = country)) + 
+    geom_line() + geom_point(size=2) +
+    labs(title = "GDP Per Capita vs Year", x = "Year", y = "GDP per capita")
+```
+
 
 A boxplot of the GDP per capita of five countries.
 ```{r}
@@ -237,6 +250,20 @@ gapminder %>%
   kable(digits = 1, align = 'c')
 ```
 
+If we are interested in getting the minimum life expectantcy in Europe over time while retaining information about which country contributes the extreme value, the following output can be generated.
+```{r}
+gapminder %>%
+  filter(continent == "Europe") %>% 
+  select(year, country, lifeExp) %>% 
+  arrange(year) %>% 
+  group_by(year) %>% 
+  top_n(1, wt = lifeExp) %>% 
+  kable(digits = 2, align = 'c')
+```
+From this table we can see that over time the minimum life expectantcy in Europe has gone up with Norway having the lowest life expectantcy (72.67) in 1952 and Iceland having the lowest life expectantcy (81.76) in 2007.
+
+
 ## Report your process
+
 While completing this assignment I encountered few to no frustrations with using R Markdown and GitHub which made the coding experience much more enjoyable than the first assignment. I encountered a few small issues every once in a while when I was generating the code for the section of the assignment entitled 'Exploring various plot types' but found Jenny's dplyr tutorial very helpful. If I still had troubles with a plot after consulting Jenny's document I usually searched the functions on the internet. I found creating the facet plot most challenging since there were several functions I had to look up in order to understand how to generate the plot. Although we haven't learned how to create stripplots in class I found creating those plots was fairly easy.  
 
