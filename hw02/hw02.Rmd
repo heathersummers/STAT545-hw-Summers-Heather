@@ -244,13 +244,15 @@ ggplot(subset(gapminder, year == 1997),
 filter(gapminder, country == c("Rwanda", "Afghanistan"))
 ```
 
-The output above is missing some of the data for both countries. Below is the correct way to get the data for Rwanda and Afghanistan.
+The output above is missing some of the data for both countries since the function is assuming that both countries are one and thus alternates years and only includes 12 observations instead of 24. Below is the correct way to get the data for Rwanda and Afghanistan.
 ```{r}
 library(knitr)
 gapminder %>%
     filter(country %in% c("Rwanda", "Afghanistan")) %>% 
   kable(digits = 1, align = 'c')
 ```
+
+
 
 If we are interested in getting the minimum life expectantcy in Europe over time while retaining information about which country contributes the extreme value, the following output can be generated.
 ```{r}
