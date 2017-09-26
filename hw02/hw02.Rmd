@@ -134,6 +134,7 @@ To get the distribution of the observations based on continent I used the functi
 ```{r}
 barplot(table(gapminder$continent))
 ```
+
 Based on this graph there are more observations for Africa, followed by Asia, Europe, Americas, and then Oceania. Continents display a slightly skewed right distribution.
 
 A historgram can be used to illustrate the distribution for life expectantcy and GDP per capita.
@@ -141,6 +142,7 @@ A historgram can be used to illustrate the distribution for life expectantcy and
 hist(gapminder$lifeExp)
 hist(gapminder$gdpPercap)
 ```
+
 Life expectantcy displays a skewed left distribution while GDP per capita displays a skewed right distribution.
 
 ## Explore various plot types
