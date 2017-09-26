@@ -58,6 +58,21 @@ The function 'length(gapminder)' provides the number of elements in a list and w
 
 The functions 'dim()' and 'length()' provide a quick way of getting basic information on the size and extent of the data. 
 
+There are also occasions where it may be useful to get more specific information such as the number of observations per continent.
+```{r}
+gapminder %>%
+  group_by(continent) %>%
+  summarize (n = n())
+```
+You can also get the number of unique countries for each continent.
+```{r}
+gapminder %>%
+  group_by(continent) %>%
+  summarize(n = n(),
+            n_countries = n_distinct(country))
+```
+
+
 #### What data type is each variable?
 ```{r}
 lapply(gapminder, class) #In order to get the classes of each of the columns in the data frame.
@@ -77,28 +92,60 @@ summary(gapminder$continent) %>%
 summary(gapminder$continent)
 table(gapminder$continent)
 ```
-These two functions let us know that there are five continents listed in the gapminder data frame and provides the number of elements for each of the continents. The function 'table(gapminder$continent)' provides the same information.
+The first function lets us know that there are five continents listed in the gapminder data frame and the last two functions both provide the number of elements for each of the continents.
 
+For the 'country' variable there are 142 countries listed in the gapminder dataset.
 ```{r}
 unique(gapminder$country) %>%
   length()
 ```
 
-There are 142 countries in the gapminder dataset. Below are the first five countries listed in al
+Below are the first five countries listed in alphabetical order.
 
 ```{r}
 unique(select(gapminder, country)) %>%
   head()
 ```
 
+Now looking at the quantitative variables, life expectantcy and GDP percapita. 
 
+To get the range of life expectantcy and GDP per capita you can use the functions 'range()' or 'summary()'.
+```{r}
+range(gapminder$lifeExp)
+summary(gapminder$lifeExp)
+```
+The life expectantcy data ranges from 23.60 to 82.60.
+```{r}
+range(gapminder$gdpPercap)
+summary(gapminder$gdpPercap)
+```
+The GDP per capita data ranges from 241.2 to 113523.1.
+
+You can also get the range of GDP per capita by continent.
+```{r}
+gapminder %>%
+  group_by(continent) %>%
+  summarize(minGDP=min(gdpPercap), maxGDP=max(gdpPercap))
+```
+
+#### What values are typical? What's the spread? What's the distribution? 
+
+To get the distribution of the observations based on continent I used the function 'barplot()'.
 ```{r}
 barplot(table(gapminder$continent))
-summary(gapminder$country) %>%
-  length()
-summary(gapminder$lifeExp)
+```
+Based on this graph there are more observations for Africa, followed by Asia, Europe, Americas, and then Oceania. Continents display a slightly skewed right distribution.
+
+A historgram can be used to illustrate the distribution for life expectantcy and GDP per capita.
+```{r}
 hist(gapminder$lifeExp)
-summary(gapminder$gdpPercap)
 hist(gapminder$gdpPercap)
 ```
+Life expectantcy displays a skewed left distribution while GDP per capita displays a skewed right distribution.
+
+## Explore various plot types
+
+
+
+
 
