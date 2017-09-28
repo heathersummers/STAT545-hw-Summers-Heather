@@ -20,7 +20,7 @@ I recently graduated with an Honours Bachelor of Science from the Integrated Sci
 - [Guidelines for peer review](http://stat545.com/peer-review02_peer-evaluation-guidelines.html)
 - [Document on knitr](https://yihui.name/knitr/)
 - [Jenny's dplyr tutorial](https://github.com/jennybc/ggplot2-tutorial)
-- [Package dplyr](https://cran.r-project.org/web/packages/dplyr/dplyr.pdf)
+- [dplyr package](https://cran.r-project.org/web/packages/dplyr/dplyr.pdf)
 - [dplyr functions for a single dataset](http://stat545.com/block010_dplyr-end-single-table.html#use-arrange-to-row-order-data-in-a-principled-way)
 - [ggplot2 cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf)
 - [ggplot2 themes](http://ggplot2.tidyverse.org/reference/ggtheme.html)
