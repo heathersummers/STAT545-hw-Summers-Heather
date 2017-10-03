@@ -1,6 +1,7 @@
 ---
 title: "hw03"
 output: github_document
+
 ---
 Below is STAT545 Homework 03.
 
@@ -39,7 +40,7 @@ ggplot(p2, aes(x = continent, y = value, fill = variable)) +
   theme(axis.title = element_text(size=14),
         axis.text.x = element_text(size=12),
         axis.text.y = element_text(size=12),
-        plot.title = element_text(size=16, hjust = 0.5),
+        plot.title = element_text(size=15, hjust = 0.5),
         legend.title = element_text(size=14),
         legend.text = element_text(size=12)) +
   labs(x = "Continent", y = "GDP Per Capita", title = "Minimum and Maximum GDP Per Capita of the Continents")
