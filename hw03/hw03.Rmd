@@ -5,7 +5,7 @@ output: github_document
 Below is STAT545 Homework 03.
 
 First, load the 'gapminder' dataset and the 'tidyverse' package. Next, load 'knitr' as it can be used to make decent-looking table output, 'reshape2' as it can be used to change the format of data (i.e. change to long- or wide-format), and 'RcolorBrewer' as it can be used to create nice looking colour palettes.
-```{r}
+```{r results='hide', message=FALSE, warning=FALSE}
 library(gapminder)
 library(tidyverse)
 library(knitr)
