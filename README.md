@@ -25,4 +25,3 @@ I recently graduated with an Honours Bachelor of Science from the Integrated Sci
 - [ggplot2 cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf)
 - [ggplot2 themes](http://ggplot2.tidyverse.org/reference/ggtheme.html)
 - [ggplot2 scales, axes, and legends](https://github.com/hadley/ggplot2-book/blob/master/scales.rmd)
-
