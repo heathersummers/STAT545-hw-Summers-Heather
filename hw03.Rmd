@@ -1,0 +1,206 @@
+---
+title: "hw03"
+output: github_document
+---
+Below is STAt545 Homework 03.
+
+First, load the 'gapminder' dataset and the 'tidyverse' package. Next, load 'knitr' as it can be used to make decent-looking table output, 'reshape2' as it can be used to change the format of data (i.e. change to long- or wide-format), and 'RcolorBrewer' as it can be used to create nice looking colour palettes.
+```{r}
+library(gapminder)
+library(tidyverse)
+library(knitr)
+library(RColorBrewer)
+library(reshape2)
+```
+
+## Get the maximum and minimum of GDP per capita for all continents.
+
+First group the data set by continent and then use the function 'summarize' to get the minimum and maximum GDP per capita for each continent.
+```{r results = 'asis'}
+p1<- group_by(gapminder, continent) %>%
+  summarize(min_gdppercap=min(gdpPercap),max_gdppercap=max(gdpPercap)) 
+knitr::kable(p1, digits =2, align = 'c')
+```
+
+Using the format from the table above I was unable to create a ggplot in which both the minimum and maximum GDP per capita are side-by-side for each continent. As such I used the function 'melt()' from the package 'reshape2' to create one column with both the minumum and maximum GDP per capita for each continent. 
+
+```{r}
+p2 <- melt(p1,id.vars = c("continent"))
+knitr::kable(p2)
+```
+
+Next, I created a barplot where the bars for both the minimum and maximum GDP per capita for each continent were next to one another on the graph.
+```{r}
+ggplot(p2, aes(x = continent, y = value, fill = variable)) +
+  geom_bar(stat='identity', position='dodge', colour='black') + #specify the 'dodge' position to get the bars beside each other and not stacked
+  scale_fill_discrete("Legend", labels = c("Minimum GDP Per Capita", "Maximum GDP Per Capita")) +
+  scale_y_log10() + #added a log scale to y axis since the difference between the two variables was so drastic that the minimum GDP per capita for some continents was barely represented on the figure
+  theme_bw()+
+  theme(axis.title = element_text(size=14),
+        axis.text.x = element_text(size=12),
+        axis.text.y = element_text(size=12),
+        plot.title = element_text(size=16, hjust = 0.5),
+        legend.title = element_text(size=14),
+        legend.text = element_text(size=12)) +
+  labs(x = "Continent", y = "GDP Per Capita", title = "Minimum and Maximum GDP Per Capita of the Continents")
+```
+
+Looking at this figure you can see that Africa has the lowest minimum GDP per capita while Asia has the highest maximum GDP per capita. 
+
+## Look at the spread of GDP per capita within the continents.
+
+```{r}
+p3 <- group_by(gapminder, continent, year) %>% 
+  summarize (min_gdppercap=min(gdpPercap),
+             max_gdppercap=max(gdpPercap), 
+             average_gdppercap = mean(gdpPercap),
+             median_gdppercap = median(gdpPercap),
+             standarddev_gdppercap = sd(gdpPercap)) %>% 
+  rename("Continent" = continent, "Year" = year, "Minimum GDP Per Capita" = min_gdppercap, "Maximum GDP Per Capita" = max_gdppercap, "Average" = average_gdppercap, "Median" = median_gdppercap, "Standard Deviation" = standarddev_gdppercap)
+knitr::kable(p3, digits = 2, align = 'c')
+```
+
+```{r}
+gapminder %>% 
+  ggplot(aes(x = continent, y = gdpPercap)) +
+  geom_boxplot(fill = "grey") +
+  labs(title = "GDP Per Capita vs Continent", x = "Continent", y = "GDP Per Capita") +
+  theme_bw() +
+  theme(axis.title = element_text(size=14),
+        axis.text.x = element_text(size=12),
+        axis.text.y = element_text(size=12),
+        plot.title = element_text(size=16, hjust = 0.5))
+```
+
+This boxplot provides a way to visualize the outliers within each continent, however, the boxplots generated for each continent are squished at the bottom of the figure. 
+
+```{r}
+ggplot(gapminder, aes(x = year, y = gdpPercap, group = country)) +
+  geom_line(lwd = 1, show.legend = FALSE) +
+  facet_wrap(~continent) +
+  aes(colour=country) +
+  scale_colour_manual(values = country_colors) +
+  scale_y_continuous("GDP Per Capita", position="left") +
+  labs(x="Year", title="GDP Per Capita over Time Within the Continents") +
+  theme_bw(base_size=12) +
+  theme(strip.background = element_rect(fill="lightgrey"),
+        axis.title = element_text(size=14),
+        strip.text = element_text(size=14, face="bold"),
+        plot.title = element_text(size=16, hjust = 0.5), #'hjust' centers the title
+        panel.spacing = unit(1.1, "lines")) #increase spacing between graphs
+```
+
+This spaghetti plot is informative since it gives a sense of the distribution of trends within each continent.
+
+I am interested to find out which country in Asia had such a high GDP per capita between 1950 and 1980.
+```{r}
+gapminder %>% 
+  filter (continent == "Asia", year <= 1979, year >= 1949) %>% 
+  filter (gdpPercap == max(gdpPercap)) %>%
+  select (continent, country, year, gdpPercap)
+```
+
+From this output I have determined that Kuwait had the highest GDP per capita in Asia between 1950 and 1980 with a maximum GDP per capita of 113 523.1 in 1957. The high GDP per capita is likely do to a large increase in the petroleum industry since the oil industry control's a lot of the country's GDP.
+
+
+## How is life expectancy changing over time on different continents?
+
+Start by grouping the data by continent and year, and then I also made sure to order the data by year, then continent. Next, I computed the average life expectancy of each continent for each year. 
+```{r results = 'asis'}
+gapminder %>% 
+  group_by(continent, year) %>% 
+  arrange(year, continent) %>% 
+  summarize(mean_lifeExp=mean(lifeExp)) %>% 
+  rename("Continent" = continent, "Year" = year, "Mean Life Expectancy" = mean_lifeExp) %>% 
+  kable(digits = 3, align = 'c')
+```
+
+Below are two figures for describing the same data. The first figure has all five continents expressed against each other on the same graph. I did not include the raw data for the first figure since it made it difficult to interpret the trends since the graph was overcrowded with points. In the second figure I used 'facet_wrap' to generate a separate panel (i.e. plot) of life expectancy over time for each continent. The scales line up between panels making it easier to analyze and compare trends among the different panels (i.e. continents).
+```{r}
+mycolours <- brewer.pal(5,"Set1") #to assign colours to categorical variables
+names(mycolours) <- levels(gapminder$continent)
+colscale <- scale_colour_manual("Continents Around the World", values = mycolours)
+
+p4 <- ggplot(gapminder, aes(x=year, y=lifeExp, colour=continent)) +
+  geom_smooth(method="lm", se=FALSE) +
+  colscale +
+  scale_y_continuous("Life Expectancy", position="left") +
+  labs(x="Year", title="Life Expectancy over Time on Different Continents") +
+  theme_bw(base_size=12) +
+  theme(axis.title = element_text(size=14),
+        plot.title = element_text(size=16, hjust = 0.5),
+        legend.position = "right",
+        legend.direction = "vertical",
+        legend.title = element_text(size=12))
+p4
+
+p5 <- ggplot(gapminder, aes(year, lifeExp)) +
+  facet_wrap(~continent) +
+  geom_point(colour="darkgreen") +
+  geom_smooth(colour="black", se=FALSE) +
+  scale_y_continuous("Life Expectancy", position="left") +
+  scale_colour_discrete() +
+  labs(x="Year", title="Life Expectancy over Time on Different Continents") +
+  theme_bw(base_size=12) +
+  theme(strip.background = element_rect(fill="lightgrey"),
+        axis.title = element_text(size=14),
+        strip.text = element_text(size=14, face="bold"),
+        plot.title = element_text(size=16, hjust = 0.5), #'hjust' centers the title
+        panel.spacing = unit(1.5, "lines")) #increase spacing between graphs
+p5
+```
+
+Based on both figures, we can conclude that Oceania had the greatest life expectancy from 1952 until 2007 while Africa had the lowest life expectancy. Possible reasons for the low life expectancy in Africa include famine, availability of clean water, widespread of deadly diseases such as AIDS, and lack of government funding for healthcare. 
+
+
+## I want to determine how many countries on each continent have a life expectancy less than the average life expectancy worldwide of 71.5 years over the period 2010 to 2015 (according to the United Nations World population Prospects 2015 Revision).
+
+```{r}
+gapminder %>% 
+  filter(lifeExp < 71.5) %>%
+  group_by(continent, year) %>%
+  arrange(continent, year) %>%
+  summarize(n_countries = n_distinct(country)) %>%
+  rename("Continent" = continent, "Number of Countries" = n_countries, "Year" = year)
+```
+
+This table produces a large output with 51 rows so I decided to also look specifically at the year 2007. 
+```{r}
+gapminder %>% 
+  filter(lifeExp < 71.5, year == 2007) %>%
+  group_by(continent) %>%
+  summarize(n_countries = n_distinct(country)) %>%
+  rename("Continent" = continent, "Number of Countries" = n_countries)
+```
+
+As you can see the life expectancy for all countries in Europe and Oceania were above 71.5 years in the year 2007 while there were 6 countries in the Americas, 14 countries in Asia, and 47 countries in Africa that were below the worldwide average life expectancy of 71.5 years. 
+
+I am now interested to know the ratio of countries with a life expectancy below 71.5 years for each continent for each year. 
+```{r}
+p6 <- gapminder %>%
+  mutate(lowlifeExp = (lifeExp < 71.5)) %>%
+  group_by(continent, year) %>%
+  summarize(lowlifeExp_ratio = sum(lowlifeExp == TRUE)/sum(lowlifeExp %in% c(TRUE, FALSE)))
+knitr::kable(p6, digits = 3, align = 'c')
+# Can't add the function 'rename()' to change the titles of the table or else the figure below does not work.
+```
+
+Now to create a figure to represent the information in the table above. Low life expectancy is characterized as a life expectancy less than 71.5 years. 
+```{r}
+ggplot(p6,aes(x = year, y = lowlifeExp_ratio, colour = continent)) +
+  geom_line(lwd=1) +
+  scale_colour_discrete("Continents of the World") +
+  scale_y_continuous("Countries with Low Life Expectancy/Total Countries", position="left") +
+  labs(x="Year", title="Relative Number of Countries with a Low Life Expectancy over Time") +
+  theme_bw(base_size=12) +
+  theme(axis.title = element_text(size=12),
+        axis.title.x = element_text(size=10),
+        axis.title.y = element_text(size=10),
+        plot.title = element_text(size=13, hjust = 0.5),
+        legend.position = "right",
+        legend.direction = "vertical",
+        legend.title = element_text(size=12))
+```
+
+In 1952, all the countries within each continent, except Europe, had life expectancies less than 71.5 years yet over time the life expectancies of all continents have increased. By 2007, all countries in Europe and Oceania had life expectancies greater than 71.5 years. The dramatic change in slope for Oceania is due to the fact that there are only two countries within the continent Oceania and from 1952 to 1962 both countries had low life expectancies but during 1967 the life expectancy of one of the two countries increased above 71.5 years while it took until around 1972 for the other country to increase above 71.5 years. 
+
