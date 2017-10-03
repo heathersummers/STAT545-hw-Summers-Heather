@@ -2,7 +2,7 @@
 title: "hw03"
 output: github_document
 ---
-Below is STAt545 Homework 03.
+Below is STAT545 Homework 03.
 
 First, load the 'gapminder' dataset and the 'tidyverse' package. Next, load 'knitr' as it can be used to make decent-looking table output, 'reshape2' as it can be used to change the format of data (i.e. change to long- or wide-format), and 'RcolorBrewer' as it can be used to create nice looking colour palettes.
 ```{r}
@@ -22,7 +22,7 @@ p1<- group_by(gapminder, continent) %>%
 knitr::kable(p1, digits =2, align = 'c')
 ```
 
-Using the format from the table above I was unable to create a ggplot in which both the minimum and maximum GDP per capita are side-by-side for each continent. As such I used the function 'melt()' from the package 'reshape2' to create one column with both the minumum and maximum GDP per capita for each continent. 
+Using the format from the table above I was unable to create a ggplot in which both the minimum and maximum GDP per capita are side-by-side for each continent. As such I used the function 'melt()' from the package 'reshape2' to create one column with both the minimum and maximum GDP per capita for each continent. 
 
 ```{r}
 p2 <- melt(p1,id.vars = c("continent"))
@@ -49,6 +49,7 @@ Looking at this figure you can see that Africa has the lowest minimum GDP per ca
 
 ## Look at the spread of GDP per capita within the continents.
 
+First, group the data by continent and year. Next, in order to understand the spread of the data generate the minimum, maximum, average, median, and standard deviation of GDP per capita for each continent by year.
 ```{r}
 p3 <- group_by(gapminder, continent, year) %>% 
   summarize (min_gdppercap=min(gdpPercap),
@@ -60,6 +61,7 @@ p3 <- group_by(gapminder, continent, year) %>%
 knitr::kable(p3, digits = 2, align = 'c')
 ```
 
+Then plot the data in order to see the spread of GDP per capita within each continent.
 ```{r}
 gapminder %>% 
   ggplot(aes(x = continent, y = gdpPercap)) +
@@ -72,8 +74,9 @@ gapminder %>%
         plot.title = element_text(size=16, hjust = 0.5))
 ```
 
-This boxplot provides a way to visualize the outliers within each continent, however, the boxplots generated for each continent are squished at the bottom of the figure. 
+This boxplot provides a way to visualize the minimum, maximum, and average GDP per capita within each continent as well as outliers, however, the boxplots generated for each continent are squished at the bottom of the figure (due to the outliers). 
 
+Another way to plot the data is to create a spaghetti plot since it gives a sense of the distribution of trends within each continent by year.
 ```{r}
 ggplot(gapminder, aes(x = year, y = gdpPercap, group = country)) +
   geom_line(lwd = 1, show.legend = FALSE) +
@@ -89,8 +92,6 @@ ggplot(gapminder, aes(x = year, y = gdpPercap, group = country)) +
         plot.title = element_text(size=16, hjust = 0.5), #'hjust' centers the title
         panel.spacing = unit(1.1, "lines")) #increase spacing between graphs
 ```
-
-This spaghetti plot is informative since it gives a sense of the distribution of trends within each continent.
 
 I am interested to find out which country in Asia had such a high GDP per capita between 1950 and 1980.
 ```{r}
@@ -153,7 +154,9 @@ p5
 Based on both figures, we can conclude that Oceania had the greatest life expectancy from 1952 until 2007 while Africa had the lowest life expectancy. Possible reasons for the low life expectancy in Africa include famine, availability of clean water, widespread of deadly diseases such as AIDS, and lack of government funding for healthcare. 
 
 
-## I want to determine how many countries on each continent have a life expectancy less than the average life expectancy worldwide of 71.5 years over the period 2010 to 2015 (according to the United Nations World population Prospects 2015 Revision).
+## Relative abundance of countries with low life expectancy over time by continent.
+
+I want to determine how many countries on each continent have a life expectancy less than the average life expectancy worldwide of 71.5 years over the period 2010 to 2015 (according to the United Nations World population Prospects 2015 Revision).
 
 ```{r}
 gapminder %>% 
