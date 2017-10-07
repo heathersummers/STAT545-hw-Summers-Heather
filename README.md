@@ -27,4 +27,4 @@ I recently graduated with an Honours Bachelor of Science from the Integrated Sci
 - [ggplot2 scales, axes, and legends](https://github.com/hadley/ggplot2-book/blob/master/scales.rmd)
 - [Cheatsheet for dplyr join functions](http://stat545.com/bit001_dplyr-cheatsheet.html)
 - [Two-table verbs](https://cran.r-project.org/web/packages/dplyr/vignettes/two-table.html)
-- [Cheatsheet for dplyr and tidyr](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf)
+- [Cheatsheet for data wrangling with dplyr and tidyr](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf)
