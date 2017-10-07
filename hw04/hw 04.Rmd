@@ -1,7 +1,5 @@
 ---
 title: "Hw 04"
-author: "Heather"
-date: "October 6, 2017"
 output: github_document
 ---
 Below is homework assignment #4.
