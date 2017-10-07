@@ -59,7 +59,8 @@ Dataset 'b':
 
 #### Mutating Joins
 
-left_join(a, b, by = "x1") --> Join matching rows from b to a.
+left_join(a, b, by = "x1")
+Join matching rows from 'b' to 'a'.
 
 | x1 | x2 | x3|
 | :---: | :---: | :---: |
@@ -67,7 +68,8 @@ left_join(a, b, by = "x1") --> Join matching rows from b to a.
 | B | 4 | H |
 | C | 5 | N/A |
 
-right_join(a, b, by = "x1") --> Join matching rows from a to b.
+right_join(a, b, by = "x1")
+Join matching rows from 'a' to 'b'.
 
 | x1 | x3 | x2 |
 | :---: | :---: | :--: |
@@ -75,14 +77,16 @@ right_join(a, b, by = "x1") --> Join matching rows from a to b.
 | B | H | 4 |
 | D | I | N/A |
 
-inner_join(a, b, by = "x1") --> Join data, retain only rows in both sets.
+inner_join(a, b, by = "x1")
+Join data, retain only rows in both sets.
 
 | x1 | x2 | x3|
 | :---: | :---: | :---: |
 | A | 3 | G |
 | B | 4 | H |
 
-full_join(a, b, by = "x1") --> Join data, retain all values and all rows.
+full_join(a, b, by = "x1")
+Join data, retain all values and all rows.
 
 | x1 | x2 | x3|
 | :---: | :---: | :---: |
@@ -92,14 +96,16 @@ full_join(a, b, by = "x1") --> Join data, retain all values and all rows.
 | D | N/A | I
 
 #### Filtering Joins
-semi_join(a, b, by = "x1") --> All rows in 'a' that have a match in 'b'.
+semi_join(a, b, by = "x1")
+All rows in 'a' that have a match in 'b'.
 
 | x1 | x2 |
 | :---: | :---: |
 | A | 3 |
 | B | 4 |
 
-anti_join(a, b, by = "x1") --> All rows in 'a' that do not have a match in 'b'.
+anti_join(a, b, by = "x1")
+All rows in 'a' that do not have a match in 'b'.
 
 | x1 | x2 |
 | :---: | :---: |
