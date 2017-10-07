@@ -1,0 +1,111 @@
+---
+title: "Hw 04"
+author: "Heather"
+date: "October 6, 2017"
+output: github_document
+---
+Below is homework assignment #4.
+
+Load the following packages:
+```{r results='hide', message=FALSE, warning=FALSE}
+library(gapminder)
+library(tidyverse)
+library(devtools)
+library(knitr)
+```
+
+## General data reshaping and relationship to aggregation
+### Activity #1
+#### Make your own tidyr cheatsheet
+
+The package `tidyr` is used to create tidy data in which each variable is in its own column and each observation is in its own row. Tidy data is particularly good for R (or similar programming languages) since the layout ensures that values of different variables from the same observation are paired (i.e. complements R's vectorized operations). It is best to organise variables by their role in the analysis with fixed variables (i.e. describe the experimental design and are known) first followed by nmeasured variables (i.e. varaibles measured in the study). The two fundamental verbs of data tidying (i.e. structuring datasets to facilitate analysis) are `gather()` and `spread()`.
+
+See below for the format for both `gather()` and `spread()`:
+
+##### function name <- data.frame %>% gather(key, value, ...) 
+where key is what you want to call the column headers that became a     variable, value is what you want to call the stacked columns that became a variable, and `...` is the items to include (or not include) in the reshape.
+
+The function `gather()` takes multiple columns and assembles them into key and value columns. The objective of `gather()` is to make wide data (i.e. more columns, less rows) longer. Gather columns into rows.
+
+On the other hand, the function `spread()` takes the two columns, key and value, and spreads in to multiple columns. The objective of `spread()` is to make long data (i.e. more rows, less columns) wider. Spread rows into columns.
+
+The function `separate` separates one column into several while the function `unite` unites several columns into one.
+
+The package `tidyr` also provides the functions `separate()` and `extract()` which are used to pull apart a column that represents multiple variables. 
+
+#### Related packages
+`tidyr` replaces `reshape2` which was used for general reshaping and `reshape` which was used for general aggregation.
+
+| tidyr Functions | reshape2 Functions | database Functions |  spreadsheet Functions |
+| :---: | :---: | :---: | :---: |
+| gather | melt | fold | unpivot |
+|spread | cast | unfold | pivot |
+
+## Join, merge, look up
+
+Dataset 'a':
+
+| x1 | x2 |
+| :---: | :---: |
+| A | 3 |
+| B | 4 |
+| C | 5 |
+
+Dataset 'b':
+
+| x1 | x3 |
+| :---: | :---: |
+| A | G |
+| B | H |
+| D | I |
+
+#### Mutating Joins
+
+left_join(a, b, by = "x1") --> Join matching rows from b to a.
+
+| x1 | x2 | x3|
+| :---: | :---: | :---: |
+| A | 3 | G |
+| B | 4 | H |
+| C | 5 | N/A |
+
+right_join(a, b, by = "x1") --> Join matching rows from a to b.
+
+| x1 | x3 | x2 |
+| :---: | :---: | :--: |
+| A | G | 3 |
+| B | H | 4 |
+| D | I | N/A |
+
+inner_join(a, b, by = "x1") --> Join data, retain only rows in both sets.
+
+| x1 | x2 | x3|
+| :---: | :---: | :---: |
+| A | 3 | G |
+| B | 4 | H |
+
+full_join(a, b, by = "x1") --> Join data, retain all values and all rows.
+
+| x1 | x2 | x3|
+| :---: | :---: | :---: |
+| A | 3 | G |
+| B | 4 | H |
+| C | 5 | N/A |
+| D | N/A | I
+
+#### Filtering Joins
+semi_join(a, b, by = "x1") --> All rows in 'a' that have a match in 'b'.
+
+| x1 | x2 |
+| :---: | :---: |
+| A | 3 |
+| B | 4 |
+
+anti_join(a, b, by = "x1") --> All rows in 'a' that do not have a match in 'b'.
+
+| x1 | x2 |
+| :---: | :---: |
+| C | 5 |
+
+### Activity #2
+#### Make a tibble with one row per year and columns for life expectancy for two or  more countries.
