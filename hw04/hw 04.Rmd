@@ -39,6 +39,52 @@ The package `tidyr` also provides the functions `separate()` and `extract()` whi
 | gather | melt | fold | unpivot |
 |spread | cast | unfold | pivot |
 
+### Activity #2
+#### Make a tibble with one row per year and columns for life expectancy for two or more countries.
+
+For this activity I will compare the life expectancy of Canada, New Zealand, France, Belgium, and Denmark. First, select data for only those countries using the function `filter()` and then use the function `select()` to retain only the columns for country, year, and life expectancy.
+
+```{r}
+data.long <- gapminder %>%
+  filter(country %in% c("Canada", "New Zealand", "France", "Belgium", "Denmark")) %>%
+  select(country, year, lifeExp)
+
+knitr::kable(data.long, digits = 2, align = "c", col.names = c('Country', 'Year', 'Life Expectancy (Year)'), format = 'markdown')
+```
+
+I will now reshape the data using the function `spread()` which will convert a key-value pair across multiple columns making the data wider. `spread()` is particularly helpful for tidying the data in the country column because the five possible values (Canada, New Zealand, France, Belgium, and Denmark) can now be spread into new columns in the reshaped dataframe.
+
+```{r}
+data_wide <- data.long %>%
+  spread(country, lifeExp)
+
+knitr::kable(data_wide, digits = 2, align = 'c', col.names = c('Year', 'Life Expectancy in Belgium (Year)', 'Life Expectancy in Canada (Year)', 'Life Expectancy in Denmark (Year)', 'Life Expectancy in France (Year)', 'Life Expectancy in New Zealand (Year)'), format = 'markdown')
+```
+
+This form is tidy since there is one variable in each column and each row represents one year. For creating the graph I will use the long form (i.e. data_long) of the data since that works best with ggplot.
+
+```{r}
+ggplot(data.long,aes(x = year, y = lifeExp, colour = country)) +
+  geom_point() +
+  geom_line() +
+  scale_colour_discrete("Country") +
+  scale_x_continuous("Year", breaks = seq(1950, 2010, 10),
+                     labels = as.character(seq(1950, 2010, 10)),
+                     limits = c(1950, 2010)) +
+  scale_y_continuous(breaks = seq(65, 85, 5),
+                     labels = as.character(seq(65, 85, 5)),
+                     limits = c(65, 85)) +
+  theme_bw() +
+  theme(axis.title = element_text(size=14, face="bold"),
+        plot.title = element_text(size=16, hjust=0.48),
+        axis.title.x = element_text(size=13),
+        axis.title.y = element_text(size=13),
+        legend.title = element_text(size=14, face="bold"),
+        legend.text = element_text(size=13)) +
+  labs(x = "Year", y = "Life Expectancy (Year)", title = "Comparison of Life Expectancies of Canada, New Zealand, France, Belgium, and Denmark")
+```
+
+
 ## Join, merge, look up
 
 Dataset 'a':
