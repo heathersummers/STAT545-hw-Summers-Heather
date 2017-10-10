@@ -157,5 +157,5 @@ All rows in 'a' that do not have a match in 'b'.
 | :---: | :---: |
 | C | 5 |
 
-### Activity #2
-#### Make a tibble with one row per year and columns for life expectancy for two or  more countries.
+### Activity #1
+#### Create a second data frame, complementary to Gapminder. Join this with (part of) Gapminder using a dplyr join function and make some observations about the process and result.
