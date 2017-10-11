@@ -31,6 +31,7 @@ library(knitr)
 ## General data reshaping and relationship to aggregation
 ### Activity #1
 #### Make your own tidyr cheatsheet
+
 <a href="#top">Back to top</a>
 
 The package `tidyr` is used to create tidy data in which each variable is in its own column and each observation is in its own row. Tidy data is particularly good for R (or similar programming languages) since the layout ensures that values of different variables from the same observation are paired (i.e. complements R's vectorized operations). It is best to organise variables by their role in the analysis with fixed variables (i.e. describe the experimental design and are known) first followed by nmeasured variables (i.e. varaibles measured in the study). The two fundamental verbs of data tidying (i.e. structuring datasets to facilitate analysis) are `gather()` and `spread()`.
@@ -83,6 +84,7 @@ The package `tidyr` also provides the functions `separate()` and `extract()` whi
 
 ### Activity #2
 #### Make a tibble with one row per year and columns for life expectancy for two or more countries
+
 <a href="#top">Back to top</a>
 
 For this activity I will compare the life expectancy of Canada, New Zealand, France, Belgium, and Denmark. First, select data for only those countries using the function `filter()` and then use the function `select()` to retain only the columns for country, year, and life expectancy.
@@ -129,6 +131,7 @@ ggplot(data.long,aes(x = year, y = lifeExp, colour = country)) +
 
 
 ## Join, merge, look up
+
 <a href="#top">Back to top</a>
 
 Below is a simple cheatsheet I created of the different `join` functions.
@@ -205,6 +208,7 @@ All rows in 'a' that do not have a match in 'b'.
 
 ### Activity #1
 #### Create a second data frame, complementary to gapminder and join this with gapminder
+
 <a href="#top">Back to top</a>
 
 For this part of the assignment I downloaded [data](http://appsso.eurostat.ec.europa.eu/nui/submitViewTableAction.do) on air pollutants by source sector from 1990 until 2015 for all countries within the European Union. In particular, I am interested in the air pollutant sulphur oxide and the industrial, agricultural, and waste sector sources. I saved the file as a `.csv` file and imported it into R markdown using the function `read.csv`.
