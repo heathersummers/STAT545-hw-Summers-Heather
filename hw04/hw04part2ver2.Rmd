@@ -1,0 +1,111 @@
+---
+title: "hw04"
+output: github_document
+---
+
+
+```{r}
+library(gapminder)
+library(tidyverse)
+library(knitr)
+install.packages("devtools")
+library(devtools)
+```
+
+For this part of the assignment I downloaded [data](http://appsso.eurostat.ec.europa.eu/nui/submitViewTableAction.do) on air pollutants by source sector from 1990 until 2015 for all countries within the European Union. In particular, I am interested in the air pollutant sulphur oxide and the industrial, agricultural, and waste sector sources. I saved the file as a `.csv` file and imported it into R markdown using the function `read.csv`.
+
+```{r}
+data.sox_emis <- read.csv("sox_emis.csv")
+attach(data.sox_emis)
+
+View(data.sox_emis) # to view the entire data set
+knitr::kable(head(data.sox_emis, n=10), format = 'markdown')
+```
+
+Now, I first want to make this data look more like the gapminder data set.
+```{r}
+names(data.sox_emis) <- c("year", "country", "air_pollutant", "sect_source", "emission") #rename the columns
+knitr::kable(head(data.sox_emis, n=10), format = 'markdown')
+```
+
+Now I want to make the total sector source its own column and remove the air pollutant column since it isn't necessary.
+```{r}
+#Total sector source emissions is its own column and the columns have been renamed
+data.sox_emis_2 <- data.sox_emis %>%
+  spread(sect_source,emission)
+names(data.sox_emis_2) <- c("year", "country", "air-pollutant", "total sector source emissions")
+```
+
+```{r}
+#Removing the air pollutant column
+data.sox_emis_3 <- data.sox_emis_2 %>%
+  select(year, country,"total sector source emissions")
+knitr::kable(head(data.sox_emis_3, n=10), format = 'markdown', align = 'c', caption = "Sulphur Oxide Air Pollutants in Tonnes for Total Sectors of Emissions")  
+```
+
+Now lets join this data frame with the gapminder data frame using various `join` functions.
+
+#### Left Join
+The function `left_join` joins matching rows from the gapminder data frame to the air pollutant data frame. The function does this by preserving all the data from gapminder and adding new columns from the air pollutant data to corresponding rows and if there is no match for a row in the air pollutant data frame to the gapminder data frame then the observation is excluded.
+```{r}
+gapminder.sox.left <- left_join(gapminder, data.sox_emis_3, by = c("country", "year"))
+View(gapminder.sox.left)
+```
+
+Since the European Union consists of 28 member states located in Europe we could also filter the gapminder data set to only include countries in Europe.
+```{r}
+gapminder_europe <- gapminder %>%
+  filter(continent == "Europe")
+
+gapminder_europe.sox.left <- left_join(gapminder_europe, data.sox_emis_3, by = c("country", "year"))
+glimpse(gapminder_europe.sox.left)
+```
+Also we get this warning message because the `country` columns in both data sets are not just characters but are factors. To get rid of the warning message and convert the columns `country` to characters used the function `as.character()`.
+
+```{r}
+gap_europe <- gapminder_europe
+gap_europe$country <- as.character(gap_europe$country)
+data.sox_emis_3$country <- as.character(data.sox_emis_3$country)
+
+gapminder_europe.sox.left <- left_join(gap_europe, data.sox_emis_3, by = c("country", "year"))
+View(gapminder_europe.sox.left)
+glimpse(gapminder_europe.sox.left)
+```
+
+#### Right Join
+The function `right-join` is similar to `left_join` except that the arguments are switched, thus the function joins matching rows from the air pollutant data frame to the gapminder data frame. As such, all the data from air pollutant is retained and data from gapminder have only been added where it matches the rows for country and year in the air pollutant data frame.
+```{r}
+gapminder_europe.sox.right <- right_join(gap_europe, data.sox_emis_3, by = c("country", "year"))
+glimpse(gapminder_europe.sox.right)
+View (gapminder_europe.sox.right)
+```
+
+#### Inner Join
+The function `inner_join` joins the two data frames but only retains rows that are found in both the gapminder and air pollutant data frames resulting in no missing data points. 
+```{r}
+gapminder_europe.sox.inner <- inner_join(gap_europe, data.sox_emis_3, by = c("country", "year"))
+glimpse(gapminder_europe.sox.inner)
+```
+
+#### Full Join
+The function `full_join` joins the two data frames and retains all the values and rows from both resulting in the largest data frame with lots of missing data points.
+```{r}
+gapminder_europe.sox.full <- full_join(gap_europe, data.sox_emis_3, by = c("country", "year"))
+glimpse(gapminder_europe.sox.full)
+```
+
+#### Semi Join
+The function `semi_join` is a filtering join in which all the rows in the gapminder data frame are filtered so that only those that have a match in the air pollutant data frame are retained. As such, the sulphur oxide air emissions data points are not included in this data frame.
+```{r}
+gapminder_europe.sox.semi <- semi_join(gap_europe, data.sox_emis_3, by = c("country", "year"))
+glimpse(gapminder_europe.sox.semi)
+View(gapminder_europe.sox.semi)
+```
+
+#### Anti Join
+The function `anti_join` is another filtering join that is the inverse of `semi_join` in which all the rows in the gapminder data frame that do not have a match in the air pollutant data frame are retained. As such, the sulphur oxide air emissions data points are not included in this data frame.
+```{r}
+gapminder_europe.sox.anti <- anti_join(gap_europe, data.sox_emis_3, by = c("country", "year"))
+glimpse(gapminder_europe.sox.anti)
+```
+

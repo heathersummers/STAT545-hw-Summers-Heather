@@ -1,7 +1,10 @@
 
+## STAT545 Homework 04
+[Return to main page](https://github.com/heathersummers/STAT545-hw-Summers-Heather)
+
 This folder contains homework assignment #4 for Heather Summers.
 
-For the completed homework 04 please see the [Markdown file](https://github.com/heathersummers/STAT545-hw-Summers-Heather/blob/master/hw04/hw_04.md) and the [R Markdown file](https://github.com/heathersummers/STAT545-hw-Summers-Heather/blob/master/hw04/hw%2004.Rmd).
+For the completed homework 04 please see the [Markdown file](https://github.com/heathersummers/STAT545-hw-Summers-Heather/blob/master/hw04/hw_04.md) and the [R Markdown file](https://github.com/heathersummers/STAT545-hw-Summers-Heather/blob/master/hw04/hw%2004.Rmd). Also a link to the instructions for this assignment can be found on the [STAT545 Website](http://stat545.com/hw04_tidy-data-joins.html).
 
 ### Useful Links:
 - [Two-table verbs](https://cran.r-project.org/web/packages/dplyr/vignettes/two-table.html)
