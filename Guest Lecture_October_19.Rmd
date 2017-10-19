@@ -5,7 +5,7 @@ output: github_document
 ### October 19, 2017
 
 
-##Table of Contents:
+## Table of Contents:
 [Types: Datasets and data](#types-datasets-and-data)
 
 - [Dataset types](#dataset-types)
