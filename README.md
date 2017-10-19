@@ -27,7 +27,9 @@ Objectives:
 
 Useful Links:
 [Jenny's dplyr tutorial](https://github.com/jennybc/ggplot2-tutorial)
+
 [dplyr package](https://cran.r-project.org/web/packages/dplyr/dplyr.pdf)
+
 [dplyr functions for a single dataset](http://stat545.com/block010_dplyr-end-single-table.html#use-arrange-to-row-order-data-in-a-principled-way)
 
 ##### Homework #3:
@@ -37,8 +39,11 @@ Objectives:
 
 Useful Links:
 [Document on knitr](https://yihui.name/knitr/)
+
 [ggplot2 cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf)
+
 [ggplot2 themes](http://ggplot2.tidyverse.org/reference/ggtheme.html)
+
 [ggplot2 scales, axes, and legends](https://github.com/hadley/ggplot2-book/blob/master/scales.rmd)
 
 ##### Homework #4:
@@ -48,7 +53,9 @@ Objectives:
 
 Useful Links:
 [Cheatsheet for dplyr join functions](http://stat545.com/bit001_dplyr-cheatsheet.html)
+
 [Two-table verbs](https://cran.r-project.org/web/packages/dplyr/vignettes/two-table.html)
+
 [Cheatsheet for data wrangling with dplyr and tidyr](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf)
 
 ##### Homework #5:
@@ -60,7 +67,9 @@ Objectives:
 
 Useful Links:
 [Factors in R](https://www.stat.berkeley.edu/classes/s133/factors.html)
+
 [Information on the package 'forecast'](https://cran.r-project.org/web/packages/forecast/forecast.pdf)
+
 [Class notes on getting data in and out of R](http://stat545.com/block026_file-out-in.html)
 
 
