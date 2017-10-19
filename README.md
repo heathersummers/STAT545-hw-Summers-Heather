@@ -78,3 +78,4 @@ Useful Links:
 - [STAT545 Syllabus](http://stat545.com/syllabus.html)
 - [Slack Sign In](https://slack.com/signin)
 - [Guidelines for peer review](http://stat545.com/peer-review02_peer-evaluation-guidelines.html)
+- [Guest Lecture by Tamara Munzer](https://github.com/heathersummers/STAT545-hw-Summers-Heather/blob/master/Guest_Lecture_October_19.md)
