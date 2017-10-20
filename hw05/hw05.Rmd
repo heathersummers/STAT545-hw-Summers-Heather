@@ -11,6 +11,9 @@ output: github_document
 - [Drop Oceania](#drop_oceania)
 
 - [Reorder the levels of country or continent](#reorder_the_levels_of_country_or_continent)
+    - [Effects of `arrange()`](#effect_of_arrange())
+    - [Effects of factor reordering](#effects_of_factor_reordering)
+    - [Effects of factor reordering coupled with `arrange()`](#effects_of_factor_reordering_coupled_with_arrange())
   
 [File I/O](#file_i/o)
 
@@ -48,6 +51,7 @@ gap.drop.oceania <- factor(gap.no.oceania$continent)
 
 table(gap.drop.oceania)
 ```
+The function `factor` was able to remove the levels for the continent Oceania.
 
 Another function that is able to remove the level Oceania is `droplevels` as it is a base function that operates on all factors in a data frame or on a single factor.
 ```{r}
@@ -63,13 +67,16 @@ gap.no.oceania$continent %>%
   levels()
 ```
 
-The functions `factor`, `droplevels`, and `forcats::fct_drop()` were able to remove all entries associated with Oceania.
+The functions `factor`, `droplevels`, and `forcats::fct_drop()` were able to remove all entries and the level associated with Oceania.
 
 #### Reorder the levels of country or continent
 
 <a href="#top">Back to top</a>
 
 I used the maximum GDP per capita for each country over the study period (i.e. 1952 - 2007) as my summary statistic. 
+
+##### Effects of `arrange()`
+
 ```{r}
 gap.gdpPercap.max <- gapminder %>%
   group_by(country) %>%
@@ -78,8 +85,10 @@ gap.gdpPercap.max <- gapminder %>%
             gdpPercap.max = max(gdpPercap)) %>%
   arrange(desc(gdpPercap.max))
 
+#factor levels:
 head(levels(gap.gdpPercap.max$country))
 
+#table of the data:
 knitr::kable(head(gap.gdpPercap.max),
                   col.names = c('Country','Continent','Life Expectancy(Years)','GDP Per Capita'),
                   digits = 3,
@@ -87,23 +96,60 @@ knitr::kable(head(gap.gdpPercap.max),
                   format = 'html',
                   caption = "Maximum Life Expectancy and GDP Per Capita Between 1952 and 2007")
 
-
+#figure of the data for just Asia:
+gap_asia_gdpPercap.max <- gap.gdpPercap.max %>%
+  filter(continent == "Asia") %>%
+  ggplot(aes(x = gdpPercap.max, y = country)) +
+  geom_point() +
+  scale_x_continuous("Maximum GDP Per Capita") +
+  labs(title = "Maximum GDP Per Capita for Asia Between 1952 and 2007", y = "Country") +
+  theme_bw() +
+  theme(axis.title = element_text(size=14, face="bold"),
+        axis.text.x = element_text(size=12),
+        axis.text.y = element_text(size=8),
+        plot.title = element_text(size=15, face="bold", hjust = 0.5))
+gap_asia_gdpPercap.max
 ```
-As you can see above the country factor levels are still in alphabetical order (i.e. the default), only the ordering of the entries has changed. Now I must reorder the country factor levels according to the maximum GDP per capita summary.
+
+As you can see above, using the `arrange()` function does not change the country factor levels as they are still in alphabetical order (i.e. the default). In the figure above the countries are aligned in alphabetical order rather than being ordered based on the quantitative variable of maximum GDP per capita and thus the points on the graph are scattered everywhere with no evident pattern. Thus, only arranging the data based on maximum GDP per capita had no effect on the figure.
+
+##### Effects of factor reordering
+
+<a href="#top">Back to top</a>
+
+Now I must reorder the country factor levels according to the maximum GDP per capita summary.
 ```{r}
-gap.gdpPercap.max <- gap.gdpPercap.max %>%
+gap.gdpPercap.max_factor <- gap.gdpPercap.max %>%
   mutate(country = fct_reorder(country, gdpPercap.max)) %>%
   select(country, continent, gdpPercap.max)
-head(levels(gap.gdpPercap.max$country))
 
-knitr::kable(head(gap.gdpPercap.max),
+#factors levels:
+head(levels(gap.gdpPercap.max_factor$country))
+
+#table of the data:
+knitr::kable(head(gap.gdpPercap.max_factor),
                   col.names = c('Country','Continent','GDP Per Capita'),
                   digits = 3,
                   align ='c',
                   format = 'html',
                   caption = "Maximum GDP Per Capita Between 1952 and 2007 Using Ordered Country Factor Levels") 
+
+#figure of the data for just Asia:
+gap_asia_gdpPercap.max_factor <- gap.gdpPercap.max_factor %>%
+  filter(continent == "Asia") %>%
+  ggplot(aes(x = gdpPercap.max, y = country)) +
+  geom_point() +
+  scale_x_continuous("Maximum GDP Per Capita") +
+  labs(title = "Maximum GDP Per Capita for Asia Between 1952 and 2007", y = "Country") +
+  theme_bw() +
+  theme(axis.title = element_text(size=14, face="bold"),
+        axis.text.x = element_text(size=12),
+        axis.text.y = element_text(size=8),
+        plot.title = element_text(size=15, face="bold", hjust = 0.5))
+gap_asia_gdpPercap.max_factor
 ```
-As you can see above the `country` variables has been ordered according to ascending maximum GDP per capita between 1952 and 2007.
+
+As you can see above, reordering a factor  by a quantitative variable such as maximum GDP per capita arranges the data in a figure so that the points illustrate a clear pattern since the countries are listed on the y-axis in order of their maximum GDP per capita and not alphabetical order. The `country` variable has been ordered according to maximum GDP per capita between 1952 and 2007. The reorder country factor level made it easier to interpret the figure and determine which country has the lowest and highest maximum GDP per capita over the study period.
 
 Below is another way to reorder the country factor levels according to descending maximum GDP per capita.
 ```{r}
@@ -113,8 +159,42 @@ fct_reorder(gapminder$country, gapminder$gdpPercap, max, .desc = TRUE) %>%
   head()
 ```
 
+##### Effects of factor reordering coupled with `arrange()`
 
-### Common part:
+<a href="#top">Back to top</a>
+
+Now I will investigate the effects of factor reordering coupled with `arrange()` to see what effects it might have on a figure.
+```{r}
+gap.gdpPercap.max_factor_arrange <- gap.gdpPercap.max_factor %>%
+  arrange(desc(gdpPercap.max))
+
+#factor levels:
+head(levels(gap.gdpPercap.max_factor_arrange$country))
+
+#table of the data:
+knitr::kable(head(gap.gdpPercap.max_factor_arrange),
+                  col.names = c('Country','Continent','GDP Per Capita'),
+                  digits = 3,
+                  align ='c',
+                  format = 'html',
+                  caption = "Maximum GDP Per Capita Between 1952 and 2007 Using Arranged and Ordered Country Factor Levels") 
+
+#figure of the data for just Asia:
+gap_asia_gdpPercap.max_factor_arrange <- gap.gdpPercap.max_factor_arrange %>%
+  filter(continent == "Asia") %>%
+  ggplot(aes(x = gdpPercap.max, y = country)) +
+  geom_point() +
+  scale_x_continuous("Maximum GDP Per Capita") +
+  labs(title = "Maximum GDP Per Capita for Asia Between 1952 and 2007", y = "Country") +
+  theme_bw() +
+  theme(axis.title = element_text(size=14, face="bold"),
+        axis.text.x = element_text(size=12),
+        axis.text.y = element_text(size=8),
+        plot.title = element_text(size=15, face="bold", hjust = 0.5))
+gap_asia_gdpPercap.max_factor_arrange
+```
+
+As expected, there is no change in the country factor levels or graph to the situation above when there was only factor reordering.
 
 ## File I/O
 
@@ -199,6 +279,7 @@ gapminder_gdp <- gapminder %>%
        colour = "Country")
 print(gapminder_gdp)
 ```
+
 I used the color scales in the package `viridis` to colour-code the countries since the colours are easier to read by those with colourblindness. I also used the function `fct_reorder2()` so that for my factor colour the legend appears in the same order as the data.
 
 ## Writing figure to file
