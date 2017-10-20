@@ -1,4 +1,5 @@
 ### STAT545-hw01-Summers-Heather
+
 ![Hamilton, Ontario](https://c2.staticflickr.com/6/5598/15666723002_d9ee7d4778_b.jpg)
 
 Hello, my name is ***Heather*** and I am from Hamilton, Ontario, Canada! I recently graduated with an Honours Bachelor of Science from the Integrated Science program at McMaster University with a biology concentration. I am an MSc student in the Department of Geography working under the supervision of Dr. Simon Donner. I will be pursuing research on climate change and the impact that it has on coral reef biomes. 
@@ -42,7 +43,9 @@ Conducting field research on the island of Eleuthera in the Bahamas.
 
 ### Useful Links
 - [STAT545 Homepage](http://stat545.com/)
+
 - [STAT545 Syllabus](http://stat545.com/syllabus.html)
+
 - [Slack Sign In](https://slack.com/signin)
 
 ### Report your process
