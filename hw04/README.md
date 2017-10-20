@@ -8,6 +8,7 @@ For the completed homework 04 please see the [Markdown file](https://github.com/
 
 ### Useful Links:
 - [Two-table verbs](https://cran.r-project.org/web/packages/dplyr/vignettes/two-table.html)
+
 - [Cheatsheet for data wrangling with dplyr and tidyr](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf)
 
 ### Report Your Process:
