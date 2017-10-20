@@ -5,13 +5,13 @@ This repository contains the STAT545 homework assignments for **Heather Summers*
 I recently graduated with an Honours Bachelor of Science from the Integrated Science program at McMaster University with a biology concentration. I am an MSc student in the Department of Geography working under the supervision of Dr. Simon Donner. I will be pursuing research on climate change and the impact that it has on coral reef biomes.
 
 ### Homework Assignments
-| Homework | Due Date | Completed Assignments |  Peer Review Due Date |
-| :---: | :---: | :---: | :---: |
-| [01](http://stat545.com/hw01_edit-README.html) | September 19, 2017 | [Here](https://github.com/heathersummers/STAT545-homework01-Summers-Heather) | September 25, 2017 |
-| [02](http://stat545.com/hw02_explore-gapminder-dplyr.html) | September 26, 2017 | [Here](https://github.com/heathersummers/STAT545-hw-Summers-Heather/blob/master/hw02/hw02.md) | October 2, 2017 |
-| [03](http://stat545.com/hw03_dplyr-and-more-ggplot2.html) | October 3, 2017 | [Here](https://github.com/heathersummers/STAT545-hw-Summers-Heather/blob/master/hw03/hw03.md) | October 9, 2017 |
-| [04](http://stat545.com/hw04_tidy-data-joins.html) | October 10, 2017 | [Here](https://github.com/heathersummers/STAT545-hw-Summers-Heather/blob/master/hw04/hw_04.md) | October 16, 2017 |
-| [05](http://stat545.com/hw05_factor-figure-boss-repo-hygiene.html) | October 20, 2017 | N/A | October 23, 2017 |
+| Homework | Due Date | Homework Folder | Completed Assignments |  Peer Review Due Date |
+| :---: | :---: | :---: | :---: | :---: |
+| [01](http://stat545.com/hw01_edit-README.html) | September 19, 2017 | [Folder](https://github.com/heathersummers/STAT545-hw-Summers-Heather/tree/master/hw01) | [Here](https://github.com/heathersummers/STAT545-hw-Summers-Heather/blob/master/hw01/hw01_gapminder.md) | September 25, 2017 |
+| [02](http://stat545.com/hw02_explore-gapminder-dplyr.html) | September 26, 2017 | [Folder](https://github.com/heathersummers/STAT545-hw-Summers-Heather/tree/master/hw02) | [Here](https://github.com/heathersummers/STAT545-hw-Summers-Heather/blob/master/hw02/hw02.md) | October 2, 2017 |
+| [03](http://stat545.com/hw03_dplyr-and-more-ggplot2.html) | October 3, 2017 | [Folder](https://github.com/heathersummers/STAT545-hw-Summers-Heather/tree/master/hw03) | [Here](https://github.com/heathersummers/STAT545-hw-Summers-Heather/blob/master/hw03/hw03.md) | October 9, 2017 |
+| [04](http://stat545.com/hw04_tidy-data-joins.html) | October 10, 2017 | [Folder](https://github.com/heathersummers/STAT545-hw-Summers-Heather/tree/master/hw04) | [Here](https://github.com/heathersummers/STAT545-hw-Summers-Heather/blob/master/hw04/hw_04.md) | October 16, 2017 |
+| [05](http://stat545.com/hw05_factor-figure-boss-repo-hygiene.html) | October 20, 2017 | [Folder](https://github.com/heathersummers/STAT545-hw-Summers-Heather/tree/master/hw05) | [Here](https://github.com/heathersummers/STAT545-hw-Summers-Heather/blob/master/hw05/hw05.md) | October 23, 2017 |
 
 ### Deatils on Each Homework Assignment
 ##### Homework #1:
