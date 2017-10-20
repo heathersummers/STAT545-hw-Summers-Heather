@@ -202,23 +202,24 @@ As expected, there is no change in the country factor levels or graph to the sit
 
 There are three different ways to save a file and then re-import it: `saveRDS()/readRDS()`, `write_csv()/read_csv()`, and `dput()/dget()`. I will first save and then import the file back in using the functions `saveRDS()/readRDS()`.
 
-First I will save the modified data with the reordered country factor levels according to ascending maximum GDP per capita.
+First I will save the modified data with the reordered country factor levels (gap.gdpPercap.max_factor) according to ascending maximum GDP per capita.
 ```{r}
-save_rds <- tempfile("gap.gdpPercap.max", fileext = ".rds")
-saveRDS(gap.gdpPercap.max,save_rds)
+save_rds <- tempfile("gap.gdpPercap.max_factor", fileext = ".rds")
+saveRDS(gap.gdpPercap.max_factor,save_rds)
 ```
 
 Now I will re-import the data back in.
 ```{r}
 reload_data_rds <- readRDS(save_rds)
 str(reload_data_rds)
+head(levels(reload_data_rds$country))
 ```
 As you can see the reordering country factor levels have been restored using the `saveRDS()`/`readRDS()` functions.
 
 Next, I will save and import the modified data back in using the functions `write_csv()/read_csv()`.
 ```{r}
-save_csv <- tempfile("gap.gdpPercap.max", fileext = ".csv")
-write_csv(gap.gdpPercap.max,save_csv)
+save_csv <- tempfile("gap.gdpPercap.max_factor", fileext = ".csv")
+write_csv(gap.gdpPercap.max_factor,save_csv)
 ```
 
 Now I will re-import the data back in using the function `read_csv()` but will also include column specifications in order to avoid warning messages.
@@ -233,21 +234,44 @@ columns <- cols(
 reload_data_csv <- read_csv(save_csv, col_types = columns)
 str(reload_data_csv$country)
 ```
+As you can see, the functions `write_csv()/read_csv()` do not restore the structure of the country factor levels.
 
 Lastly, I will save the modified data file using the functions `dput()/dget()`.
 First I sill save the file using the function `dput()`.
 ```{r}
-save_txt <- tempfile("gap.gdpPercap.max", fileext = ".txt")
-dput(gap.gdpPercap.max,save_txt)
+save_txt <- tempfile("gap.gdpPercap.max_factor", fileext = ".txt")
+dput(gap.gdpPercap.max_factor,save_txt)
 ```
 
 Now I will re-import the data using the function `dget()`.
 ```{r}
 reload_data_txt <- dget(save_txt)
 str(reload_data_txt)
+head(levels(reload_data_txt$country))
 ```
 As you can see the functions `dput()/dget()` restore the structure of the country factor levels.
 
+I created a new tibble in order to show how the factor levels of the original data with factor reordering by maximum GDP per capita compared to the reloaded data saved either by `rds`, `csv`, or `txt`.
+```{r}
+countrylevel <- tibble(original = head(levels(fct_reorder(gap.gdpPercap.max$country,gap.gdpPercap.max$gdpPercap.max))))
+
+reload_data_rds <- reload_data_rds %>%
+  mutate(country = factor(country))
+reload_data_csv <- reload_data_csv %>%
+  mutate(country = factor(country))
+reload_data_txt <- reload_data_txt %>% 
+  mutate(country = factor(country))
+
+knitr::kable(countrylevel %>%
+               mutate(via_rds = head(levels(reload_data_rds$country)),
+                      via_csv = head(levels(reload_data_csv$country)),
+                      via_txt = head(levels(reload_data_txt$country))),
+             col.names = c('Original Factored Data','Save Via rds','Save Via csv','Save Via txt'),
+             align ='c',
+             format = 'html',
+             caption = "Factor Levels of the Original Data Compared to the Reloaded Data")
+```
+As you can see from the table above the functions `write_csv()/read_csv()` did not save the structure of the factor levels (i.e. reverted back to alphabetical ordering) when the data was reloaded whereas the functions `saveRDS()/readRDS()` and `dput()/dget()` retained the factor levels upon re-importing the data back into the document.
 
 ## Visualization design
 
