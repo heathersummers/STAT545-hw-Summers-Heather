@@ -1,5 +1,5 @@
 ---
-title: "hw01_gapminder"
+title: "hw01_gapminder exploration"
 output: github_document
 ---
 
