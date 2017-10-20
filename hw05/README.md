@@ -3,7 +3,7 @@
 
 This folder contains homework assignment #5 for Heather Summers.
 
-For the completed homework 05 please see the [Markdown file]() and the [R Markdown file](). Also a link to the instructions for this assignment can be found on the [STAT545 Website](http://stat545.com/hw05_factor-figure-boss-repo-hygiene.html).
+For the completed homework 05 please see the [Markdown file](https://github.com/heathersummers/STAT545-hw-Summers-Heather/blob/master/hw05/hw05.md) and the [R Markdown file](https://github.com/heathersummers/STAT545-hw-Summers-Heather/blob/master/hw05/hw05.Rmd). Also a link to the instructions for this assignment can be found on the [STAT545 Website](http://stat545.com/hw05_factor-figure-boss-repo-hygiene.html).
 
 ### Useful Links:
 - [Factors in R](https://www.stat.berkeley.edu/classes/s133/factors.html)
