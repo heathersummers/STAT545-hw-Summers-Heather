@@ -72,6 +72,10 @@ Useful Links:
 
 - [Class notes on getting data in and out of R](http://stat545.com/block026_file-out-in.html)
 
+- [Be the boss of your factors](http://stat545.com/block029_factors.html)
+
+- [The viridis color palettes](https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html)
+
 
 ### Additional Useful Links
 - [STAT545 Homepage](http://stat545.com/)

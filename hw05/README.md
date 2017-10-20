@@ -14,5 +14,7 @@ For the completed homework 05 please see the [Markdown file](https://github.com/
 
 - [Be the boss of your factors](http://stat545.com/block029_factors.html)
 
+- [The viridis color palettes](https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html)
+
 ### Report Your Process:
 
