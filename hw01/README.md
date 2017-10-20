@@ -1,6 +1,10 @@
 ### STAT545-hw01-Summers-Heather
 [Return to Main Page](https://github.com/heathersummers/STAT545-hw-Summers-Heather)
 
+This folder contains homework assignment #1 for Heather Summers.
+
+For the completed homework 01 please see the [Markdown file](https://github.com/heathersummers/STAT545-hw-Summers-Heather/blob/master/hw01/hw01_gapminder.md) and the [R Markdown file](https://github.com/heathersummers/STAT545-hw-Summers-Heather/blob/master/hw01/hw01_gapminder.Rmd). Also a link to the instructions for this assignment can be found on the [STAT545 Website](http://stat545.com/hw01_edit-README.html).
+
 ![Hamilton, Ontario](https://c2.staticflickr.com/6/5598/15666723002_d9ee7d4778_b.jpg)
 
 Hello, my name is ***Heather*** and I am from Hamilton, Ontario, Canada! I recently graduated with an Honours Bachelor of Science from the Integrated Science program at McMaster University with a biology concentration. I am an MSc student in the Department of Geography working under the supervision of Dr. Simon Donner. I will be pursuing research on climate change and the impact that it has on coral reef biomes. 
