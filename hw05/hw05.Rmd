@@ -1,0 +1,75 @@
+---
+title: "hw05"
+author: "Heather"
+date: "October 18, 2017"
+output: html_document
+---
+
+```{r results='hide', message=FALSE, warning=FALSE}
+library(gapminder)
+library(tidyverse)
+library(forcats)
+library(devtools)
+library(knitr)
+```
+
+## Factor management
+### Gapminder version:
+#### Drop Oceania
+In order to remove all the entries associated with Oceania I used the function `filter()`.
+```{r}
+gap.no.oceania <- gapminder %>%
+  filter(continent != "Oceania")
+table(gap.no.oceania$continent)
+```
+The `filter` function was able to remove the entries associated with the continent Oceania, however the level Oceania is still present in the table. Thus, in my next attempt I used the function `factor`.
+```{r}
+gap.drop.oceania <- factor(gap.no.oceania$continent)
+
+table(gap.drop.oceania)
+```
+
+Another function that is able to remove the level Oceania is `droplevels`.
+```{r}
+gap.nolevel.oceania <- droplevels(gap.no.oceania)
+
+table(gap.nolevel.oceania$continent)
+```
+Both the `factor` and `droplevels` functions were able to remove all entries associated with Oceania.
+
+#### Reorder the levels of `country` ****or**** `continent`
+
+I used the maximum GDP per capita for each country over the study period (i.e. 1952 - 2007) as my summary statistic. 
+```{r}
+gap.gdpPercap.max <- gapminder %>%
+  group_by(country) %>%
+  summarize(continent = unique(continent),
+            lifeExp.max = max(lifeExp),
+            gdpPercap.max = max(gdpPercap)) %>%
+  arrange(desc(gdpPercap.max))
+
+knitr::kable(gap.gdpPercap.max,
+             col.names = c('Country','Continent','Life Expectancy(Years)','GDP Per Capita'), 
+             digits = 3, 
+             align ='c', 
+             format = 'html',
+             caption = "Maximum Life Expectancy and GDP Per Capita Between 1952 and 2007")
+
+head(levels(gap.gdpPercap.max$country))
+```
+As you can see above the country factor levels are still in alphabetical order so now I must reorder the country factor levels according to the maximum GDP per capita summary.
+```{r}
+gap.gdpPercap.max %>%
+  mutate(country = fct_reorder(country, gdpPercap.max)) %>% knitr::kable(align='c', format = 'html')
+head(levels(gap.gdpPercap.max$country))
+
+```
+
+
+### Common part:
+
+## File I/O
+
+## Visulation design
+
+## Writing figure to file
