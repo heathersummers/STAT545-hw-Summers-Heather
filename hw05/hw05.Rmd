@@ -2,7 +2,7 @@
 title: "hw05"
 author: "Heather"
 date: "October 18, 2017"
-output: html_document
+output: github_document
 ---
 
 ```{r results='hide', message=FALSE, warning=FALSE}
