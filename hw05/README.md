@@ -12,5 +12,7 @@ For the completed homework 05 please see the [Markdown file](https://github.com/
 
 - [Class notes on getting data in and out of R](http://stat545.com/block026_file-out-in.html)
 
+- [Be the boss of your factors](http://stat545.com/block029_factors.html)
+
 ### Report Your Process:
 

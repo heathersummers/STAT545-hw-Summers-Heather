@@ -5,17 +5,37 @@ date: "October 18, 2017"
 output: github_document
 ---
 
+##Table of Contents:
+[Factor management](#factor_management)
+
+- [Drop Oceania](#drop_oceania)
+
+- [Reorder the levels of country or continent](#reorder_the_levels_of_country_or_continent)
+  
+[File I/O](#file_i/o)
+
+[Visualization design](#visualization_design)
+
+[Writing figures to file](#writing_figures_to_file)
+
+
+Load the following packages:
 ```{r results='hide', message=FALSE, warning=FALSE}
 library(gapminder)
 library(tidyverse)
 library(forcats)
 library(devtools)
 library(knitr)
+library(RColorBrewer)
+library(viridis)
 ```
 
 ## Factor management
 ### Gapminder version:
 #### Drop Oceania
+
+<a href="#top">Back to top</a>
+
 In order to remove all the entries associated with Oceania I used the function `filter()`.
 ```{r}
 gap.no.oceania <- gapminder %>%
@@ -29,15 +49,25 @@ gap.drop.oceania <- factor(gap.no.oceania$continent)
 table(gap.drop.oceania)
 ```
 
-Another function that is able to remove the level Oceania is `droplevels`.
+Another function that is able to remove the level Oceania is `droplevels` as it is a base function that operates on all factors in a data frame or on a single factor.
 ```{r}
 gap.nolevel.oceania <- droplevels(gap.no.oceania)
 
 table(gap.nolevel.oceania$continent)
 ```
-Both the `factor` and `droplevels` functions were able to remove all entries associated with Oceania.
 
-#### Reorder the levels of `country` ****or**** `continent`
+The function `forcats::fct_drop()` also drops the factor Oceania.
+```{r}
+gap.no.oceania$continent %>%
+  fct_drop() %>%
+  levels()
+```
+
+The functions `factor`, `droplevels`, and `forcats::fct_drop()` were able to remove all entries associated with Oceania.
+
+#### Reorder the levels of country or continent
+
+<a href="#top">Back to top</a>
 
 I used the maximum GDP per capita for each country over the study period (i.e. 1952 - 2007) as my summary statistic. 
 ```{r}
@@ -48,21 +78,39 @@ gap.gdpPercap.max <- gapminder %>%
             gdpPercap.max = max(gdpPercap)) %>%
   arrange(desc(gdpPercap.max))
 
-knitr::kable(gap.gdpPercap.max,
-             col.names = c('Country','Continent','Life Expectancy(Years)','GDP Per Capita'), 
-             digits = 3, 
-             align ='c', 
-             format = 'html',
-             caption = "Maximum Life Expectancy and GDP Per Capita Between 1952 and 2007")
-
 head(levels(gap.gdpPercap.max$country))
+
+knitr::kable(head(gap.gdpPercap.max),
+                  col.names = c('Country','Continent','Life Expectancy(Years)','GDP Per Capita'),
+                  digits = 3,
+                  align ='c',
+                  format = 'html',
+                  caption = "Maximum Life Expectancy and GDP Per Capita Between 1952 and 2007")
+
+
 ```
-As you can see above the country factor levels are still in alphabetical order so now I must reorder the country factor levels according to the maximum GDP per capita summary.
+As you can see above the country factor levels are still in alphabetical order (i.e. the default), only the ordering of the entries has changed. Now I must reorder the country factor levels according to the maximum GDP per capita summary.
 ```{r}
-gap.gdpPercap.max %>%
-  mutate(country = fct_reorder(country, gdpPercap.max)) %>% knitr::kable(align='c', format = 'html')
+gap.gdpPercap.max <- gap.gdpPercap.max %>%
+  mutate(country = fct_reorder(country, gdpPercap.max)) %>%
+  select(country, continent, gdpPercap.max)
 head(levels(gap.gdpPercap.max$country))
 
+knitr::kable(head(gap.gdpPercap.max),
+                  col.names = c('Country','Continent','GDP Per Capita'),
+                  digits = 3,
+                  align ='c',
+                  format = 'html',
+                  caption = "Maximum GDP Per Capita Between 1952 and 2007 Using Ordered Country Factor Levels") 
+```
+As you can see above the `country` variables has been ordered according to ascending maximum GDP per capita between 1952 and 2007.
+
+Below is another way to reorder the country factor levels according to descending maximum GDP per capita.
+```{r}
+#order according to decreasing maximum GDP per capita
+fct_reorder(gapminder$country, gapminder$gdpPercap, max, .desc = TRUE) %>%
+  levels() %>%
+  head()
 ```
 
 
@@ -70,6 +118,115 @@ head(levels(gap.gdpPercap.max$country))
 
 ## File I/O
 
-## Visulation design
+<a href="#top">Back to top</a>
+
+There are three different ways to save a file and then re-import it: `saveRDS()/readRDS()`, `write_csv()/read_csv()`, and `dput()/dget()`. I will first save and then import the file back in using the functions `saveRDS()/readRDS()`.
+
+First I will save the modified data with the reordered country factor levels according to ascending maximum GDP per capita.
+```{r}
+save_rds <- tempfile("gap.gdpPercap.max", fileext = ".rds")
+saveRDS(gap.gdpPercap.max,save_rds)
+```
+
+Now I will re-import the data back in.
+```{r}
+reload_data_rds <- readRDS(save_rds)
+str(reload_data_rds)
+```
+As you can see the reordering country factor levels have been restored using the `saveRDS()`/`readRDS()` functions.
+
+Next, I will save and import the modified data back in using the functions `write_csv()/read_csv()`.
+```{r}
+save_csv <- tempfile("gap.gdpPercap.max", fileext = ".csv")
+write_csv(gap.gdpPercap.max,save_csv)
+```
+
+Now I will re-import the data back in using the function `read_csv()` but will also include column specifications in order to avoid warning messages.
+
+```{r}
+columns <- cols(
+  country = col_character(),
+  continent = col_character(),
+  gdpPercap.max = col_double()
+)
+
+reload_data_csv <- read_csv(save_csv, col_types = columns)
+str(reload_data_csv$country)
+```
+
+Lastly, I will save the modified data file using the functions `dput()/dget()`.
+First I sill save the file using the function `dput()`.
+```{r}
+save_txt <- tempfile("gap.gdpPercap.max", fileext = ".txt")
+dput(gap.gdpPercap.max,save_txt)
+```
+
+Now I will re-import the data using the function `dget()`.
+```{r}
+reload_data_txt <- dget(save_txt)
+str(reload_data_txt)
+```
+As you can see the functions `dput()/dget()` restore the structure of the country factor levels.
+
+
+## Visualization design
+
+<a href="#top">Back to top</a>
+
+I have decided to re-make some of the plots I created in homework #2 of GDP per capita per year for five countries.
+```{r}
+gdp_countries <- c("Canada", "New Zealand","France", "Belgium", "Denmark")
+gapminder_gdp <- gapminder %>%
+  filter(country %in% gdp_countries) %>%
+  droplevels() %>%
+  ggplot(aes(x = year, 
+             y = gdpPercap, 
+             colour = fct_reorder2(country, year, gdpPercap))) + 
+  geom_line(size=1) + 
+  scale_x_continuous("Year", breaks = seq(1950, 2010, 10),
+                     labels = as.character(seq(1950, 2010, 10)),
+                     limits = c(1950, 2010)) +
+  scale_y_continuous("GDP Per Capita") +
+  scale_colour_viridis(discrete=TRUE) +
+  theme_bw() +
+  theme(axis.title = element_text(size=14, face="bold"),
+        axis.text.x = element_text(size=12),
+        axis.text.y = element_text(size=12),
+        plot.title = element_text(size=15, face="bold", hjust = 0.5),
+        legend.title = element_text(size=14, face="bold"),
+        legend.text = element_text(size=12)) +
+  labs(title = "Comparison of GDP Per Capita Between 1952 to 2007", 
+       colour = "Country")
+print(gapminder_gdp)
+```
+I used the color scales in the package `viridis` to colour-code the countries since the colours are easier to read by those with colourblindness. I also used the function `fct_reorder2()` so that for my factor colour the legend appears in the same order as the data.
 
 ## Writing figure to file
+
+<a href="#top">Back to top</a>
+
+Below I have saved the figure above using the function `ggsave()`. It is best to explicitly tell `ggsave` which plot object or else the order of the arguments will be the only way that `ggsave` will be able to interpret the inputs.
+```{r}
+ggsave("gdp_vs_year.png",
+       plot = gapminder_gdp,
+       device = "png",
+       width = 9,
+       height = 7,
+       dpi = 500)
+
+ggsave("gdp_vs_year.pdf",
+       plot = gapminder_gdp,
+       device = "pdf",
+       width = 11,
+       height = 8,
+       dpi = 400)
+```
+
+To insert the saved figure back into the page use the code `![alt text](image/path.filetype)`.
+
+!['GDP vs Year'](gdp_vs_year.png)
+
+The `pdf` image cannot be inserted into the markdown file but can be found at this [link](gdp_vs_year.pdf).
+
+
+
