@@ -9,17 +9,18 @@ output: github_document
 [Factor management](#factor_management)
 
 - [Drop Oceania](#drop_oceania)
-
 - [Reorder the levels of country or continent](#reorder_the_levels_of_country_or_continent)
+
     - [Effects of `arrange()`](#effect_of_arrange())
     - [Effects of factor reordering](#effects_of_factor_reordering)
     - [Effects of factor reordering coupled with `arrange()`](#effects_of_factor_reordering_coupled_with_arrange())
-  
+    
 [File I/O](#file_i/o)
 
 [Visualization design](#visualization_design)
 
 [Writing figures to file](#writing_figures_to_file)
+
 
 
 Load the following packages:
@@ -306,18 +307,49 @@ print(gapminder_gdp)
 
 I used the color scales in the package `viridis` to colour-code the countries since the colours are easier to read by those with colourblindness. I also used the function `fct_reorder2()` so that for my factor colour the legend appears in the same order as the data.
 
+
+This next figure I decided to create based on several different figures I have created for past homework assignments. I used factor reordering of life expectancy range for countries in teh Americas and colour-coded the points on the scatter plot according to the average GDP per capita of each country.
+```{r results='hide', message=FALSE, warning=FALSE}
+gap_Americas_lifeExprange <- gapminder %>%
+  filter(continent == "Americas") %>% 
+  group_by(country) %>%
+  summarize(lifeExp.range = max(lifeExp) - min(lifeExp),
+            gdp.mean = mean(gdpPercap))
+
+gap_Americas_lifeExprange_factor <- gap_Americas_lifeExprange %>%
+  mutate(country = fct_reorder(country, lifeExp.range)) %>%
+  select(country, lifeExp.range, gdp.mean)
+
+ggplot(gap_Americas_lifeExprange_factor, aes(country, lifeExp.range, colour = gdp.mean)) +
+  geom_point(size = 2.5) +
+  scale_x_discrete("Country") +
+  scale_y_continuous("Life Expectancy\nRange (Years)") +
+  scale_colour_distiller("Average GDP Per Capita", palette="Spectral", direction = 1) + #direction = 1 refers to the direction of the colour scale
+  labs(title = "Life Expectancy Range of Countries\nin the Americas Between 1952 to 2007", x = "Country") +
+  theme_bw() +
+  theme(axis.title = element_text(size=12, face="bold"),
+        axis.text.x = element_text(size=9, angle = 90), #rotate the axis labels 90 degrees
+        axis.text.y = element_text(size=11),
+        plot.title = element_text(size=14, face="bold", hjust = 0.5),
+        legend.title = element_text(size=13, face="bold"),
+        legend.text = element_text(size=12))
+```
+
+In the figure above I used country factor level reordering by the life expectancy range in order to have the countries in the Americas arranged in order of life expectancy range. I also used the `Spectral` palette in the `RColorBrewer` package.
+
+
 ## Writing figure to file
 
 <a href="#top">Back to top</a>
 
-Below I have saved the figure above using the function `ggsave()`. It is best to explicitly tell `ggsave` which plot object or else the order of the arguments will be the only way that `ggsave` will be able to interpret the inputs.
+Below I have saved the figure above of GDP per capita per year using the function `ggsave()`. It is best to explicitly tell `ggsave` which plot object or else the order of the arguments will be the only way that `ggsave` will be able to interpret the inputs.
 ```{r}
 ggsave("gdp_vs_year.png",
        plot = gapminder_gdp,
        device = "png",
        width = 9,
        height = 7,
-       dpi = 500)
+       dpi = 500) #resolution
 
 ggsave("gdp_vs_year.pdf",
        plot = gapminder_gdp,
@@ -333,5 +365,15 @@ To insert the saved figure back into the page use the code `![alt text](image/pa
 
 The `pdf` image cannot be inserted into the markdown file but can be found at this [link](gdp_vs_year.pdf).
 
+I also saved the figure of the reordered country factor levels of maximum GDP per capita in Asia between 1952 to 2007.
+```{r}
+ggsave("maxgdp_vs_Asiancountries.png",
+       plot = gap_asia_gdpPercap.max_factor,
+       device = "png",
+       width = 9,
+       height = 13,
+       dpi = 500)
+```
+!['Maximum GDP for Asian countries'](maxgdp_vs_Asiancountries.png)
 
-
+## But I want to do more!
