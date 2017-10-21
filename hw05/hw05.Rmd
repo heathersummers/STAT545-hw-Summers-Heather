@@ -89,10 +89,10 @@ gap.gdpPercap.max <- gapminder %>%
             gdpPercap.max = max(gdpPercap)) %>%
   arrange(desc(gdpPercap.max))
 
-#factor levels:
+# factor levels:
 head(levels(gap.gdpPercap.max$country))
 
-#table of the data:
+# table of the data:
 knitr::kable(head(gap.gdpPercap.max),
                   col.names = c('Country','Continent','Life Expectancy(Years)','GDP Per Capita'),
                   digits = 3,
@@ -100,7 +100,7 @@ knitr::kable(head(gap.gdpPercap.max),
                   format = 'html',
                   caption = "Maximum Life Expectancy and GDP Per Capita Between 1952 and 2007")
 
-#figure of the data for just Asia:
+# figure of the data for just Asia:
 gap_asia_gdpPercap.max <- gap.gdpPercap.max %>%
   filter(continent == "Asia") %>%
   ggplot(aes(x = gdpPercap.max, y = country)) +
