@@ -9,20 +9,22 @@ output: github_document
 
 ## Table of Contents:
 
-[Factor management](#factor_management)
+[Factor management](#factor-management)
 
-- [Drop Oceania](#drop_oceania)
-- [Reorder the levels of country or continent](#reorder_the_levels_of_country_or_continent)
+  - [Drop Oceania](#drop-oceania)
+  - [Reorder the levels of country or continent](#reorder-the-levels-of-country-or-continent)
 
-    - [Effects of `arrange()`](#effect_of_arrange())
-    - [Effects of factor reordering](#effects_of_factor_reordering)
-    - [Effects of factor reordering coupled with `arrange()`](#effects_of_factor_reordering_coupled_with_arrange())
+    - [Effects of arrange](#effect-of-arrange)
+    - [Effects of factor reordering](#effects-of-factor-reordering)
+    - [Effects of factor reordering coupled with arrange](#effects-of-factor-reordering-coupled-with-arrange)
     
-[File I/O](#file_i/o)
+[File](#file)
 
-[Visualization design](#visualization_design)
+[Visualization design](#visualization-design)
 
-[Writing figures to file](#writing_figures_to_file)
+[Writing figures to file](#writing-figures-to-file)
+
+[But I want to do more](#but-i-want-to-do-more)
 
 
 
@@ -79,7 +81,7 @@ The functions `factor`, `droplevels`, and `forcats::fct_drop()` were able to rem
 
 I used the maximum GDP per capita for each country over the study period (i.e. 1952 - 2007) as my summary statistic. 
 
-##### Effects of `arrange()`
+##### Effects of arrange
 
 ```{r}
 gap.gdpPercap.max <- gapminder %>%
@@ -163,7 +165,7 @@ fct_reorder(gapminder$country, gapminder$gdpPercap, max, .desc = TRUE) %>%
   head()
 ```
 
-##### Effects of factor reordering coupled with `arrange()`
+##### Effects of factor reordering coupled with arrange
 
 <a href="#top">Back to top</a>
 
@@ -200,7 +202,7 @@ gap_asia_gdpPercap.max_factor_arrange
 
 As expected, there is no change in the country factor levels or graph to the situation above when there was only factor reordering.
 
-## File I/O
+## File
 
 <a href="#top">Back to top</a>
 
@@ -341,7 +343,7 @@ ggplot(gap_Americas_lifeExprange_factor, aes(country, lifeExp.range, colour = gd
 In the figure above I used country factor level reordering by the life expectancy range in order to have the countries in the Americas arranged in order of life expectancy range. I also used the `Spectral` palette in the `RColorBrewer` package.
 
 
-## Writing figure to file
+## Writing figures to file
 
 <a href="#top">Back to top</a>
 
@@ -379,7 +381,7 @@ ggsave("maxgdp_vs_Asiancountries.png",
 ```
 !['Maximum GDP for Asian countries'](maxgdp_vs_Asiancountries.png)
 
-## But I want to do more!
+## But I want to do more
 
 <a href="#top">Back to top</a>
 
