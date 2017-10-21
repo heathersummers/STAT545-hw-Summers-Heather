@@ -7,7 +7,8 @@ output: github_document
 [Return to Main Page of Repository](https://github.com/heathersummers/STAT545-hw-Summers-Heather)
 
 
-##Table of Contents:
+## Table of Contents:
+
 [Factor management](#factor_management)
 
 - [Drop Oceania](#drop_oceania)
