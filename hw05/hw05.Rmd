@@ -1,9 +1,11 @@
 ---
-title: "hw05"
-author: "Heather"
-date: "October 18, 2017"
+title: "STAT 545 Homework Assignment #5"
 output: github_document
 ---
+[Return to Homework 5 Folder](https://github.com/heathersummers/STAT545-hw-Summers-Heather/tree/master/hw05)
+
+[Return to Main Page of Repository](https://github.com/heathersummers/STAT545-hw-Summers-Heather)
+
 
 ##Table of Contents:
 [Factor management](#factor_management)
@@ -377,3 +379,28 @@ ggsave("maxgdp_vs_Asiancountries.png",
 !['Maximum GDP for Asian countries'](maxgdp_vs_Asiancountries.png)
 
 ## But I want to do more!
+
+<a href="#top">Back to top</a>
+
+I decided to explore more of the `forcats` package and created a file with the [national animal](https://animalsake.com/list-of-national-animals-around-world) of several countries. 
+
+```{r}
+national_animal <- read.csv("national_animal.csv")
+knitr::kable(national_animal,
+             align = 'c',
+             format = 'html',
+             caption = "National Animals")
+
+#match the country factor levels in both the gapmidner data frame and the national animal data frame
+national_animal$country <- factor(national_animal$country, levels(gapminder$country))
+
+#use `semi_join` to filter all the rows in the gapminder data frame so that only those that have a match in the national_animal data frame are retained
+gapminder.animal <- semi_join(gapminder, national_animal, by = c("country"))
+
+#add a new factor in which the country variable from the gapminder data frame is relabled to animal factor level from the national animal data frame
+gapminder.animal$animal <- droplevels(gapminder.animal$country)
+levels(gapminder.animal$animal) <- national_animal$animal
+View(gapminder.animal)
+```
+
+<a href="#top">Back to top</a>

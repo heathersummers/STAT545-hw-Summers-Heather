@@ -17,4 +17,4 @@ For the completed homework 05 please see the [Markdown file](https://github.com/
 - [The viridis color palettes](https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html)
 
 ### Report Your Process:
-
+I found it very easy to clean up my repository and I even added my homework 1 assignment from my previous repository into this repository so that everything could be found in one place. I really enjoyed remaking and creating new figures as I found it so much easier than when we had done assignment 3 and it was amazing to see how far I have progressed. I did struggle for a while with reordering the levels of the variable `country` but I found this [link](http://stat545.com/block026_file-out-in.html) very helpful and once I figured it out it was easy to save and reload/import files and figures. I found the bonus exploration of the `forcats` package quite difficult and I am still not sure if I have done it correctly. All in all, STAT545 has been an amazing class and I have learned so many fundamental skills for data wrangling and creating quality figures.  
